@@ -1,5 +1,6 @@
 // Client-side only image detection
 // No file system access - uses predefined mapping
+import { PLACEHOLDER_IMAGE } from './placeholderImage';
 
 // Get the product ID formatted as 3-digit string
 function formatProductId(id: number): string {

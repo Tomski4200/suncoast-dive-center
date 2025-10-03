@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Anton, Montserrat } from 'next/font/google';
 import './globals.css';
+import ClientProviders from '@/components/ClientProviders';
 
 const anton = Anton({
   subsets: ['latin'],
@@ -29,7 +30,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${anton.variable} ${montserrat.variable}`}>
-      <body>{children}</body>
+      <body>
+        <ClientProviders>
+          {children}
+        </ClientProviders>
+      </body>
     </html>
   );
 }

@@ -23,7 +23,7 @@ const categories: Category[] = [
     description: 'Professional breathing apparatus',
     image: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=600',
     itemCount: 45,
-    href: '/shop/regulators',
+    href: '/diveshop/regulators',
     featured: true
   },
   {
@@ -32,7 +32,7 @@ const categories: Category[] = [
     description: 'Buoyancy control devices',
     image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=600',
     itemCount: 32,
-    href: '/shop/bcds'
+    href: '/diveshop/bcds'
   },
   {
     id: 3,
@@ -40,7 +40,7 @@ const categories: Category[] = [
     description: 'Thermal protection',
     image: 'https://images.unsplash.com/photo-1502933691298-84fc14542831?w=600',
     itemCount: 58,
-    href: '/shop/wetsuits'
+    href: '/diveshop/wetsuits'
   },
   {
     id: 4,
@@ -48,7 +48,7 @@ const categories: Category[] = [
     description: 'Essential dive gear',
     image: 'https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=600',
     itemCount: 76,
-    href: '/shop/masks-fins'
+    href: '/diveshop/masks-fins'
   },
   {
     id: 5,
@@ -56,7 +56,7 @@ const categories: Category[] = [
     description: 'Advanced monitoring',
     image: 'https://images.unsplash.com/photo-1592833159057-6cdbeb6bab10?w=600',
     itemCount: 28,
-    href: '/shop/computers'
+    href: '/diveshop/computers'
   },
   {
     id: 6,
@@ -64,7 +64,7 @@ const categories: Category[] = [
     description: 'Complete your kit',
     image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600',
     itemCount: 124,
-    href: '/shop/accessories'
+    href: '/diveshop/accessories'
   }
 ];
 

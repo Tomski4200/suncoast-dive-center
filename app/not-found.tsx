@@ -90,7 +90,7 @@ export default function NotFound() {
             padding: 0
           }}>
             {[
-              { label: 'Shop', href: '/shop' },
+              { label: 'Dive Shop', href: '/diveshop' },
               { label: 'Services', href: '/services' },
               { label: 'Visibility', href: '/visibility' },
               { label: 'Blog', href: '/blog' },

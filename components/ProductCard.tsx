@@ -8,6 +8,8 @@ import { ShoppingCart, Eye } from 'lucide-react';
 import { Product } from '@/lib/types';
 import { parsePrice, formatPrice, hasInventory } from '@/lib/inventory';
 import { getStaticProductImage } from '@/lib/productImages';
+import { useCart } from '@/contexts/CartContext';
+import { PLACEHOLDER_IMAGE } from '@/lib/placeholderImage';
 
 interface ProductCardProps {
   product: Product;
@@ -16,10 +18,21 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onQuickView, onAddToCart }: ProductCardProps) {
+  const { addToCart } = useCart();
   const imageUrl = getStaticProductImage(product.ID);
   const inStock = hasInventory(product);
   const hasMultipleVariants = product.variants.length > 1;
   const isOnSale = product.variants.some(v => v.MSRP !== v.Price);
+  
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onAddToCart) {
+      onAddToCart(product);
+    } else {
+      // Add default variant to cart
+      addToCart(product, product.defaultVariant, 1);
+    }
+  };
 
   // Badge colors
   const getBadgeColor = (badge: string) => {
@@ -55,7 +68,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart }: Produ
         position: 'relative'
       }}
     >
-      <Link href={`/shop/${product.ID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Link href={`/diveshop/${product.ID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
         {/* Image Container with White Background */}
         <div style={{
           position: 'relative',
@@ -118,12 +131,9 @@ export default function ProductCard({ product, onQuickView, onAddToCart }: Produ
                 <Eye size={18} color="#0a1628" />
               </button>
             )}
-            {onAddToCart && inStock && (
+            {inStock && (
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  onAddToCart(product);
-                }}
+                onClick={handleAddToCart}
                 style={{
                   background: 'rgba(140, 218, 63, 0.9)',
                   border: 'none',
@@ -161,7 +171,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart }: Produ
                 padding: '1rem'
               }}
               onError={(e) => {
-                e.currentTarget.src = '/products/placeholder.png';
+                e.currentTarget.src = PLACEHOLDER_IMAGE;
               }}
             />
           </div>

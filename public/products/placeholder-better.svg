@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Ocean gradient background -->
+  <defs>
+    <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e3a5f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a1628;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8cda3f;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#ffefbf;stop-opacity:0.2" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#oceanGradient)"/>
+  
+  <!-- Wave patterns -->
+  <path d="M0,200 Q100,180 200,200 T400,200 L400,250 Q300,270 200,250 T0,250 Z" fill="url(#waveGradient)" opacity="0.5"/>
+  <path d="M0,250 Q100,230 200,250 T400,250 L400,300 Q300,320 200,300 T0,300 Z" fill="url(#waveGradient)" opacity="0.4"/>
+  
+  <!-- Scuba mask icon -->
+  <g transform="translate(200, 180) scale(1.5)">
+    <!-- Mask frame -->
+    <ellipse cx="-25" cy="0" rx="30" ry="25" fill="none" stroke="#ffefbf" stroke-width="3" opacity="0.8"/>
+    <ellipse cx="25" cy="0" rx="30" ry="25" fill="none" stroke="#ffefbf" stroke-width="3" opacity="0.8"/>
+    <!-- Bridge -->
+    <path d="M-5,0 Q0,-10 5,0" fill="none" stroke="#ffefbf" stroke-width="3" opacity="0.8"/>
+    <!-- Glass -->
+    <ellipse cx="-25" cy="0" rx="25" ry="20" fill="#8cda3f" opacity="0.2"/>
+    <ellipse cx="25" cy="0" rx="25" ry="20" fill="#8cda3f" opacity="0.2"/>
+    <!-- Highlights -->
+    <ellipse cx="-30" cy="-5" rx="8" ry="12" fill="#ffefbf" opacity="0.3"/>
+    <ellipse cx="20" cy="-5" rx="8" ry="12" fill="#ffefbf" opacity="0.3"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="200" y="250" font-family="Arial, sans-serif" font-size="14" fill="#ffefbf" text-anchor="middle" opacity="0.6">
+    Product Image
+  </text>
+  <text x="200" y="270" font-family="Arial, sans-serif" font-size="12" fill="#8cda3f" text-anchor="middle" opacity="0.5">
+    Coming Soon
+  </text>
+  
+  <!-- Bubble decorations -->
+  <circle cx="80" cy="320" r="4" fill="#ffefbf" opacity="0.2"/>
+  <circle cx="120" cy="340" r="6" fill="#ffefbf" opacity="0.15"/>
+  <circle cx="100" cy="360" r="3" fill="#ffefbf" opacity="0.25"/>
+  <circle cx="300" cy="330" r="5" fill="#ffefbf" opacity="0.2"/>
+  <circle cx="320" cy="350" r="3" fill="#ffefbf" opacity="0.15"/>
+  <circle cx="280" cy="365" r="4" fill="#ffefbf" opacity="0.25"/>
+</svg>

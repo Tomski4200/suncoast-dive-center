@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Navigation.module.css';
+import { useCart } from '@/contexts/CartContext';
 
 interface NavigationProps {
   isVideoMode?: boolean;
@@ -14,6 +15,7 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
+  const { itemCount, setIsCartOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +27,7 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
   }, []);
 
   const menuItems = [
-    { label: 'Shop', href: '/shop' },
+    { label: 'Dive Shop', href: '/diveshop' },
     { label: 'Services', href: '/services' },
     { label: 'Visibility', href: '/visibility' },
     { label: 'Blog', href: '/blog' },
@@ -170,7 +172,11 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
           </button>
 
           {/* Cart Icon */}
-          <button className={styles.iconBtn} aria-label="Cart">
+          <button 
+            className={styles.iconBtn} 
+            aria-label="Cart"
+            onClick={() => setIsCartOpen(true)}
+          >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path
                 d="M9 2L6 9H2l3 7 1 7h12l1-7 3-7h-4l-3-7H9z"
@@ -179,7 +185,9 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
                 strokeLinejoin="round"
               />
             </svg>
-            <span className={styles.cartBadge}>3</span>
+            {itemCount > 0 && (
+              <span className={styles.cartBadge}>{itemCount}</span>
+            )}
           </button>
 
           {/* Mobile Menu Toggle */}

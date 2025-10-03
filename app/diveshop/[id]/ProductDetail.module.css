@@ -1,0 +1,53 @@
+.variantSelect {
+  width: 100%;
+  padding: 12px;
+  background: rgba(30, 58, 95, 0.3);
+  border: 1px solid rgba(255, 239, 191, 0.2);
+  border-radius: 8px;
+  color: #ffefbf;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.variantSelect:hover {
+  border-color: #8cda3f;
+}
+
+.variantSelect:focus {
+  outline: none;
+  border-color: #8cda3f;
+  box-shadow: 0 0 0 2px rgba(140, 218, 63, 0.2);
+}
+
+.variantSelect option {
+  background: #1e3a5f;
+  color: #0a1628;
+  padding: 12px;
+  font-weight: 600;
+}
+
+.variantSelect option:hover,
+.variantSelect option:focus {
+  background: #8cda3f;
+  color: #0a1628;
+}
+
+.variantSelect option:checked {
+  background: linear-gradient(135deg, #8cda3f, #6eb52f);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* For better browser compatibility */
+@supports (-webkit-appearance: none) {
+  .variantSelect {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3e%3cpath fill='%23ffefbf' d='M6 9L1 4h10z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+}
