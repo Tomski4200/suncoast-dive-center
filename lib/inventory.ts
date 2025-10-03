@@ -109,6 +109,15 @@ export function getAllProducts(): Product[] {
   return products;
 }
 
+// Get all raw products for admin (with individual variants and prices)
+export function getAllRawProducts(): any[] {
+  return rawProducts.map(product => ({
+    ...product,
+    Msrp: product.MSRP ? parsePrice(product.MSRP) : parsePrice(product.Price),
+    SalePrice: parsePrice(product.Price)
+  }));
+}
+
 // Get product by ID
 export function getProductById(id: number): Product | undefined {
   return products.find(p => p.ID === id);

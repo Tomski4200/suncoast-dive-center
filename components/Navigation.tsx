@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ShoppingCart, Search, User, Menu } from 'lucide-react';
 import styles from './Navigation.module.css';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface NavigationProps {
   isVideoMode?: boolean;
@@ -16,6 +18,7 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const { itemCount, setIsCartOpen } = useCart();
+  const { user, isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -165,11 +168,30 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
         <div className={styles.navRight}>
           {/* Search Icon */}
           <button className={styles.iconBtn} aria-label="Search">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="11" cy="11" r="8" strokeWidth="2" />
-              <path d="m21 21-4.35-4.35" strokeWidth="2" strokeLinecap="round" />
-            </svg>
+            <Search size={24} />
           </button>
+
+          {/* User Account Icon */}
+          <Link 
+            href={user ? (isAdmin() ? '/admin' : '/dashboard') : '/auth'}
+            className={styles.iconBtn} 
+            aria-label="Account"
+            style={{ position: 'relative' }}
+          >
+            <User size={24} />
+            {user && (
+              <span style={{
+                position: 'absolute',
+                top: '-2px',
+                right: '-2px',
+                width: '8px',
+                height: '8px',
+                background: '#8cda3f',
+                borderRadius: '50%',
+                border: '2px solid #0a1628'
+              }} />
+            )}
+          </Link>
 
           {/* Cart Icon */}
           <button 
@@ -177,14 +199,7 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
             aria-label="Cart"
             onClick={() => setIsCartOpen(true)}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path
-                d="M9 2L6 9H2l3 7 1 7h12l1-7 3-7h-4l-3-7H9z"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ShoppingCart size={24} />
             {itemCount > 0 && (
               <span className={styles.cartBadge}>{itemCount}</span>
             )}

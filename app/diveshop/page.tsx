@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, Filter, X, ChevronDown, Grid, List, 
@@ -217,25 +218,52 @@ export default function ShopPage() {
                   </h4>
                   <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
                     {categories.map(category => (
-                      <label
+                      <div
                         key={category}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '0.5rem',
-                          marginBottom: '0.5rem',
-                          cursor: 'pointer',
-                          color: 'rgba(255, 239, 191, 0.8)'
+                          justifyContent: 'space-between',
+                          marginBottom: '0.5rem'
                         }}
                       >
-                        <input
-                          type="checkbox"
-                          checked={selectedCategories.includes(category)}
-                          onChange={() => toggleCategory(category)}
-                          style={{ accentColor: '#8cda3f' }}
-                        />
-                        <span style={{ fontSize: '0.875rem' }}>{category}</span>
-                      </label>
+                        <label
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            cursor: 'pointer',
+                            color: 'rgba(255, 239, 191, 0.8)',
+                            flex: 1
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedCategories.includes(category)}
+                            onChange={() => toggleCategory(category)}
+                            style={{ accentColor: '#8cda3f' }}
+                          />
+                          <span style={{ fontSize: '0.875rem' }}>{category}</span>
+                        </label>
+                        <Link
+                          href={`/diveshop/category/${category.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                          style={{
+                            color: '#8cda3f',
+                            fontSize: '0.75rem',
+                            textDecoration: 'none',
+                            opacity: 0.8,
+                            transition: 'opacity 0.3s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.opacity = '1';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.opacity = '0.8';
+                          }}
+                        >
+                          View →
+                        </Link>
+                      </div>
                     ))}
                   </div>
                 </div>
