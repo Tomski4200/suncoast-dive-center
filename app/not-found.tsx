@@ -8,12 +8,12 @@ import Link from 'next/link';
 export default function NotFound() {
   return (
     <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(180deg, #0a1628 0%, #1e3a5f 50%, #0a1628 100%)',
-      position: 'relative',
-      overflow: 'hidden',
-      fontFamily: 'system-ui, sans-serif'
-    }}>
+        minHeight: '100vh',
+        background: 'linear-gradient(180deg, #0a1628 0%, #1e3a5f 50%, #0a1628 100%)',
+        position: 'relative',
+        overflow: 'hidden',
+        fontFamily: 'system-ui, sans-serif'
+      }}>
       {/* Navigation */}
       <nav style={{
         position: 'fixed',
@@ -98,7 +98,7 @@ export default function NotFound() {
               { label: 'Contact', href: '/contact' },
             ].map((item) => (
               <li key={item.href}>
-                <Link href={item.href} style={{
+                <Link href={item.href} className="nav-link-404" style={{
                   color: 'rgba(255, 239, 191, 0.9)',
                   fontWeight: 500,
                   fontSize: '0.95rem',
@@ -106,10 +106,7 @@ export default function NotFound() {
                   letterSpacing: '0.05em',
                   textDecoration: 'none',
                   transition: 'color 0.3s ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
-                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 239, 191, 0.9)'}
-                >
+                }}>
                   {item.label}
                 </Link>
               </li>
@@ -122,7 +119,7 @@ export default function NotFound() {
             alignItems: 'center',
             gap: '1.5rem'
           }}>
-            <button style={{
+            <button className="nav-button-404" style={{
               background: 'none',
               border: 'none',
               color: 'rgba(255, 239, 191, 0.9)',
@@ -130,12 +127,10 @@ export default function NotFound() {
               padding: '0.5rem',
               transition: 'color 0.3s ease'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 239, 191, 0.9)'}
             aria-label="Search">
               <Search size={24} />
             </button>
-            <button style={{
+            <button className="nav-button-404" style={{
               position: 'relative',
               background: 'none',
               border: 'none',
@@ -144,8 +139,6 @@ export default function NotFound() {
               padding: '0.5rem',
               transition: 'color 0.3s ease'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 239, 191, 0.9)'}
             aria-label="Cart">
               <ShoppingBag size={24} />
               <span style={{
@@ -519,7 +512,7 @@ export default function NotFound() {
           filter: 'drop-shadow(0 0 10px rgba(140, 218, 63, 0.5))'
         }}
         animate={{
-          x: [0, window.innerWidth + 100]
+          x: [0, 2000]
         }}
         transition={{
           duration: 20,
@@ -539,7 +532,7 @@ export default function NotFound() {
           filter: 'drop-shadow(0 0 10px rgba(255, 239, 191, 0.5))'
         }}
         animate={{
-          x: [0, window.innerWidth + 100]
+          x: [0, 2000]
         }}
         transition={{
           duration: 25,
