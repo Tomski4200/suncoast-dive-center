@@ -923,7 +923,7 @@ export default function BlogManagement() {
                   </button>
                   
                   <button
-                    onClick={() => handleDelete(blog.slug)}
+                    onClick={() => blog.slug && handleDelete(blog.slug)}
                     style={{
                       padding: '8px',
                       background: 'rgba(255, 107, 107, 0.1)',

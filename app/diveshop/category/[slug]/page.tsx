@@ -484,7 +484,7 @@ export default function CategoryPage() {
             }}
           >
             {filteredProducts.map(product => (
-              <ProductCard key={product.ID} product={product} viewMode={viewMode} />
+              <ProductCard key={product.ID} product={product} />
             ))}
           </motion.div>
         ) : (

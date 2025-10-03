@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft, Package, Calendar, CreditCard, MapPin, 
   Truck, CheckCircle, Clock, User, Mail, Phone,
-  ChevronRight, Download, Print, HelpCircle
+  ChevronRight, Download, Printer, HelpCircle
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -337,7 +337,7 @@ export default function OrderDetailsPage() {
                   gap: '0.5rem'
                 }}
               >
-                <Print size={18} />
+                <Printer size={18} />
                 Print
               </button>
             </div>

@@ -97,32 +97,32 @@ const BlogSection: React.FC = () => {
         {/* Blog Grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {blogPosts.map((post, index) => (
-            <motion.article
-              key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group"
-              style={{
-                background: 'rgba(10, 22, 40, 0.6)',
-                backdropFilter: 'blur(10px)',
-                borderRadius: '16px',
-                border: '1px solid rgba(255, 239, 191, 0.1)',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.borderColor = 'rgba(140, 218, 63, 0.3)';
-                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = 'rgba(255, 239, 191, 0.1)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
+            <Link href="/blog" key={post.id} style={{ textDecoration: 'none' }}>
+              <motion.article
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group"
+                style={{
+                  background: 'rgba(10, 22, 40, 0.6)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(255, 239, 191, 0.1)',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.borderColor = 'rgba(140, 218, 63, 0.3)';
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 239, 191, 0.1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
               {/* Image Container */}
               <div style={{
                 position: 'relative',
@@ -240,7 +240,8 @@ const BlogSection: React.FC = () => {
                   </span>
                 </div>
               </div>
-            </motion.article>
+              </motion.article>
+            </Link>
           ))}
         </div>
 
@@ -251,7 +252,8 @@ const BlogSection: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center"
         >
-          <button
+          <Link
+            href="/blog"
             style={{
               padding: '1rem 2.5rem',
               background: 'transparent',
@@ -267,7 +269,8 @@ const BlogSection: React.FC = () => {
               backdropFilter: 'blur(10px)',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.75rem'
+              gap: '0.75rem',
+              textDecoration: 'none'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = '#8cda3f';
@@ -294,7 +297,7 @@ const BlogSection: React.FC = () => {
             >
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>
