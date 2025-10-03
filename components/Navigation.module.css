@@ -1,0 +1,237 @@
+/* Navigation Container */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  background: rgba(10, 22, 40, 0.8);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.nav.scrolled {
+  backdrop-filter: blur(20px);
+  background: rgba(10, 22, 40, 0.8);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.navContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-gold-light);
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  color: var(--color-vibrant-lime);
+  transform: translateY(-2px);
+}
+
+.logo:hover .logoText {
+  filter: drop-shadow(0 4px 20px #8cda3f) drop-shadow(0 2px 10px #8cda3f);
+  transition: filter 1s ease;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: filter 1s ease;
+  filter: drop-shadow(0 0 0 transparent);
+}
+
+.logoLine1 {
+  font-family: var(--font-heading);
+  font-size: 1.32rem;
+  letter-spacing: 0.12em;
+  background: linear-gradient(to right, var(--color-gold-light) 0%, var(--color-gold-dark) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logoLine2 {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--color-gold-light);
+  opacity: 0.8;
+}
+
+/* Desktop Menu */
+.desktopMenu {
+  display: none;
+  list-style: none;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .desktopMenu {
+    display: flex;
+  }
+}
+
+.navLink {
+  position: relative;
+  color: rgba(255, 239, 191, 0.9);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-vibrant-lime);
+  transition: width 0.3s ease;
+}
+
+.navLink:hover {
+  color: var(--color-vibrant-lime);
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* Right Section */
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Icon Buttons */
+.iconBtn {
+  position: relative;
+  color: rgba(255, 239, 191, 0.9);
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+}
+
+.iconBtn:hover {
+  color: var(--color-vibrant-lime);
+  transform: translateY(-2px);
+}
+
+/* Cart Badge */
+.cartBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--color-vibrant-lime);
+  color: var(--color-deep-navy);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.4rem;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile Menu Toggle */
+.mobileMenuToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: rgba(255, 239, 191, 0.9);
+}
+
+@media (min-width: 768px) {
+  .mobileMenuToggle {
+    display: none;
+  }
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 24px;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: currentColor;
+  transition: all 0.3s ease;
+}
+
+.mobileMenuToggle:hover .hamburger span {
+  background: var(--color-vibrant-lime);
+}
+
+/* Mobile Menu */
+.mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(10, 22, 40, 0.98);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 239, 191, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.mobileMenuList {
+  list-style: none;
+  padding: 1rem;
+}
+
+.mobileMenuLink {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: rgba(255, 239, 191, 0.9);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.mobileMenuLink:hover {
+  background: rgba(140, 218, 63, 0.1);
+  color: var(--color-vibrant-lime);
+  transform: translateX(5px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .navContainer {
+    padding: 1rem;
+  }
+
+  .logoText {
+    display: none;
+  }
+
+  .navRight {
+    gap: 0.75rem;
+  }
+}

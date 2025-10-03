@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Color Palette */
+  --color-deep-navy: #0a1628;
+  --color-ocean-blue: #1e3a5f;
+  --color-accent-teal: #00d4aa;
+  --color-vibrant-lime: #8cda3f;
+  --color-coral: #ff6b6b;
+  --color-sand: #f5f1e8;
+  --color-deep-sea: #04080f;
+  --color-white: #fafafa;
+  
+  /* Gold Gradient Colors */
+  --color-gold-light: #ffefbf;
+  --color-gold-mid: #ffd700;
+  --color-gold-dark: #92856a;
+  
+  /* Font Families */
+  --font-heading: var(--font-anton);
+  --font-body: var(--font-montserrat);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-deep-navy);
+  color: var(--color-white);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}

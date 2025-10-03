@@ -1,0 +1,364 @@
+/* Hero Section Container */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Background Image Container */
+.heroBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Gradient Overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 22, 40, 0.3) 0%,
+    rgba(10, 22, 40, 0.1) 50%,
+    rgba(10, 22, 40, 0.4) 100%
+  );
+  z-index: 1;
+}
+
+/* Ripple Effect Canvas */
+.rippleCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Click Ripple Animation */
+.ripple {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.ripple::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 239, 191, 0.3) 0%,
+    rgba(255, 239, 191, 0.1) 40%,
+    transparent 70%
+  );
+  animation: rippleEffect 2s ease-out;
+}
+
+@keyframes rippleEffect {
+  to {
+    width: 400px;
+    height: 400px;
+    opacity: 0;
+  }
+}
+
+/* Particle Container */
+.particleContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Falling Particles - Bubble effect */
+.particle {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="bubble"><stop offset="0%" stop-color="rgba(255,255,255,0.3)"/><stop offset="30%" stop-color="rgba(255,255,255,0.1)"/><stop offset="60%" stop-color="rgba(200,230,255,0.05)"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><circle cx="50" cy="50" r="48" fill="url(%23bubble)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><ellipse cx="35" cy="30" rx="12" ry="8" fill="rgba(255,255,255,0.4)" transform="rotate(-25 35 30)"/></svg>');
+  background-size: 100% 100%;
+  filter: blur(0.5px);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+
+/* Hero Content Container */
+.heroContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 2rem;
+}
+
+/* Hero Text */
+.heroText {
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1;
+  user-select: none;
+}
+
+.line {
+  display: block;
+  background: linear-gradient(
+    to right,
+    #ffefbf 0%,
+    #ffd700 25%,
+    #92856a 50%,
+    #ffd700 75%,
+    #ffefbf 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+.line1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3rem, 12vw, 9rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 80px rgba(255, 239, 191, 0.5);
+}
+
+.line2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 300;
+  letter-spacing: 0.27em;
+  margin-top: -0.08em;
+  transform: scaleX(0.96);
+  transform-origin: center;
+  text-shadow: 0 0 60px rgba(255, 239, 191, 0.4);
+}
+
+/* CTA Container */
+.ctaContainer {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* CTA Buttons */
+.ctaPrimary,
+.ctaSecondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  min-width: 200px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.ctaIcon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+/* Primary CTA - Lime with Gold hover */
+.ctaPrimary {
+  background: #8cda3f;
+  color: #0a1628;
+  border-color: #8cda3f;
+  box-shadow: 0 4px 20px rgba(140, 218, 63, 0.3);
+}
+
+.ctaPrimary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 239, 191, 0.4) 50%,
+    transparent 100%
+  );
+  transition: left 0.5s ease;
+}
+
+.ctaPrimary:hover {
+  background: linear-gradient(135deg, #8cda3f 0%, #b8e563 50%, #ffefbf 100%);
+  box-shadow: 
+    0 6px 30px rgba(140, 218, 63, 0.4),
+    0 0 60px rgba(255, 239, 191, 0.2);
+}
+
+.ctaPrimary:hover::before {
+  left: 100%;
+}
+
+.ctaPrimary:hover .ctaIcon {
+  transform: translateX(5px);
+}
+
+/* Secondary CTA - Transparent with Gold border */
+.ctaSecondary {
+  position: relative;
+  background: transparent;
+  color: #ffefbf;
+  border: 2px solid rgba(255, 239, 191, 0.5);
+  backdrop-filter: blur(10px);
+  background-color: rgba(10, 22, 40, 0.3);
+  z-index: 0;
+}
+
+.ctaSecondary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, #8cda3f 0%, transparent 70%);
+  transition: all 0.5s ease;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.ctaSecondary:hover {
+  color: #0a1628;
+  border-color: #8cda3f;
+}
+
+.ctaSecondary:hover::before {
+  width: 100%;
+  height: 100%;
+  padding: 50%;
+}
+
+.ctaSecondary:hover .ctaIcon {
+  transform: translateX(5px);
+}
+
+/* Scroll Indicator */
+.scrollIndicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 239, 191, 0.6);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.scrollIndicator:hover {
+  color: #8cda3f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heroContent {
+    gap: 2rem;
+  }
+
+  .line1 {
+    font-size: clamp(2.5rem, 10vw, 6rem);
+  }
+
+  .line2 {
+    font-size: clamp(1.2rem, 3.5vw, 2.5rem);
+    letter-spacing: 0.2em;
+  }
+
+  .ctaContainer {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .particle {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .line1 {
+    font-size: clamp(2rem, 9vw, 4rem);
+  }
+
+  .line2 {
+    font-size: clamp(1rem, 3vw, 2rem);
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .particle {
+    display: none;
+  }
+
+  .line {
+    animation: none;
+  }
+
+  .ripple::after {
+    animation: none;
+  }
+
+  .scrollIndicator {
+    animation: none;
+  }
+
+  .ctaPrimary::before,
+  .ctaSecondary::before {
+    display: none;
+  }
+}
