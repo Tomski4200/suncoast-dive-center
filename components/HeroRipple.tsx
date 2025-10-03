@@ -70,19 +70,7 @@ const HeroRipple: React.FC = () => {
             return min + Math.random() * (max - min);
           };
 
-          for (let i = 0; i < total; i++) {
-            const Div = document.createElement('div');
-            TweenLite.set(Div, {
-              attr: { class: 'dot' },
-              x: R(0, w),
-              y: R(-200, -150),
-              z: R(-200, 200)
-            });
-            container.appendChild(Div);
-            animm(Div);
-          }
-
-          function animm(elm: HTMLElement) {
+          const animm = (elm: HTMLElement) => {
             TweenMax.to(elm, R(6, 15), {
               y: h + 100,
               ease: Linear.easeNone,
@@ -104,6 +92,18 @@ const HeroRipple: React.FC = () => {
               ease: Sine.easeInOut,
               delay: -5
             });
+          };
+
+          for (let i = 0; i < total; i++) {
+            const Div = document.createElement('div');
+            TweenLite.set(Div, {
+              attr: { class: 'dot' },
+              x: R(0, w),
+              y: R(-200, -150),
+              z: R(-200, 200)
+            });
+            container.appendChild(Div);
+            animm(Div);
           }
         }
       }
