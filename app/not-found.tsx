@@ -185,7 +185,7 @@ export default function NotFound() {
             left: `${Math.random() * 100}%`,
           }}
           animate={{
-            y: [0, -window.innerHeight - 100],
+            y: [0, -1000],
             x: [0, Math.random() * 100 - 50, Math.random() * 100 - 50, 0],
             opacity: [0, 0.7, 0.7, 0]
           }}
