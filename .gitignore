@@ -6,6 +6,7 @@
 
 # project specific
 /products
+CLAUDE.md
 
 # testing
 /coverage

@@ -66,9 +66,9 @@ const HeroRipple: React.FC = () => {
           const w = window.innerWidth;
           const h = window.innerHeight;
 
-          function R(min: number, max: number) {
+          const R = (min: number, max: number) => {
             return min + Math.random() * (max - min);
-          }
+          };
 
           for (let i = 0; i < total; i++) {
             const Div = document.createElement('div');
