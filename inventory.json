@@ -22,7 +22,7 @@
   },
   {
     "ID": 2,
-    "Brand": "Aeris/Oceanic (Implied)",
+    "Brand": "Various",
     "Product": "Openwater Gear Package",
     "MSRP": "$1,299.95",
     "Price": "$1,299.95",
@@ -191,7 +191,7 @@
   },
   {
     "ID": 9,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Hookah Hose (50')",
     "MSRP": "$139.95",
     "Price": "$139.95",
@@ -207,7 +207,7 @@
   },
   {
     "ID": 9,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Hookah Hose (70')",
     "MSRP": "$189.95",
     "Price": "$189.95",
@@ -223,7 +223,7 @@
   },
   {
     "ID": 10,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Molded Handle Lobster Bag",
     "MSRP": "$54.95",
     "Price": "$54.95",
@@ -239,7 +239,7 @@
   },
   {
     "ID": 11,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Green Lobster Snare",
     "MSRP": "$52.95",
     "Price": "$52.95",
@@ -484,7 +484,7 @@
   },
   {
     "ID": 19,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Florida Spiny Lobster Gauge",
     "MSRP": "$2.25",
     "Price": "$2.25",
@@ -500,7 +500,7 @@
   },
   {
     "ID": 20,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Medium/Large Multi-Purpose Gear Bag (Yellow)",
     "MSRP": "$29.95",
     "Price": "$29.95",
@@ -516,7 +516,7 @@
   },
   {
     "ID": 20,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Medium/Large Multi-Purpose Gear Bag (Yellow)",
     "MSRP": "$29.95",
     "Price": "$29.95",
@@ -532,7 +532,7 @@
   },
   {
     "ID": 20,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Medium/Large Multi-Purpose Gear Bag (Yellow)",
     "MSRP": "$29.95",
     "Price": "$29.95",
@@ -811,7 +811,7 @@
   },
   {
     "ID": 31,
-    "Brand": "Oceanic/Zeagle (Implied)",
+    "Brand": "Various",
     "Product": "Professional Scuba Package",
     "MSRP": "$1,799.95",
     "Price": "$1,799.95",
@@ -932,7 +932,7 @@
   },
   {
     "ID": 37,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Yoke-to-DIN Permanent Regulator Conversion Kit",
     "MSRP": "$139.95",
     "Price": "$139.95",
@@ -948,7 +948,7 @@
   },
   {
     "ID": 38,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Full Size Stainless Steel Dive Knife",
     "MSRP": "$54.95",
     "Price": "$54.95",
@@ -964,7 +964,7 @@
   },
   {
     "ID": 39,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Stiletto Spearfishing/Free Dive Knife",
     "MSRP": "$26.95",
     "Price": "$26.95",
@@ -1267,7 +1267,7 @@
   },
   {
     "ID": 52,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "20x24 Dive Flag",
     "MSRP": "$21.95",
     "Price": "$21.95",
@@ -1405,7 +1405,7 @@
   },
   {
     "ID": 58,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Plastic Clip Gear Retractor",
     "MSRP": "$24.95",
     "Price": "$24.95",
@@ -1442,7 +1442,7 @@
   },
   {
     "ID": 60,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "150 Foot Dive Reel",
     "MSRP": "$21.95",
     "Price": "$21.95",
@@ -1604,7 +1604,7 @@
   },
   {
     "ID": 65,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Full Size Stainless Steel Dive Knife",
     "MSRP": "$57.95",
     "Price": "$57.95",
@@ -1620,7 +1620,7 @@
   },
   {
     "ID": 66,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Stainless Steel Stiletto Knife",
     "MSRP": "$64.95",
     "Price": "$64.95",
@@ -1636,7 +1636,7 @@
   },
   {
     "ID": 66,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Stainless Steel Stiletto Knife",
     "MSRP": "$64.95",
     "Price": "$64.95",
@@ -1652,7 +1652,7 @@
   },
   {
     "ID": 67,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Kid's Fin Strap",
     "MSRP": "$2.95",
     "Price": "$2.95",
@@ -1668,7 +1668,7 @@
   },
   {
     "ID": 68,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Standard Fin Strap",
     "MSRP": "$4.95",
     "Price": "$4.95",
@@ -1684,7 +1684,7 @@
   },
   {
     "ID": 69,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Moldable Regulator Mouthpiece",
     "MSRP": "$39.95",
     "Price": "$39.95",
@@ -1700,7 +1700,7 @@
   },
   {
     "ID": 69,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Moldable Regulator Mouthpiece",
     "MSRP": "$39.95",
     "Price": "$39.95",
@@ -1716,7 +1716,7 @@
   },
   {
     "ID": 69,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Moldable Regulator Mouthpiece",
     "MSRP": "$39.95",
     "Price": "$39.95",
@@ -1732,7 +1732,7 @@
   },
   {
     "ID": 70,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "1mm Neoprene Soft Socks",
     "MSRP": "$27.95",
     "Price": "$27.95",
@@ -1753,7 +1753,7 @@
   },
   {
     "ID": 71,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Adult Silicone Mouthpiece (Clear)",
     "MSRP": "$11.95",
     "Price": "$11.95",
@@ -1769,7 +1769,7 @@
   },
   {
     "ID": 71,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Adult Silicone Mouthpiece (Clear)",
     "MSRP": "$11.95",
     "Price": "$11.95",
@@ -1785,7 +1785,7 @@
   },
   {
     "ID": 71,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Adult Silicone Mouthpiece (Clear)",
     "MSRP": "$11.95",
     "Price": "$11.95",
@@ -1801,7 +1801,7 @@
   },
   {
     "ID": 71,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Adult Silicone Mouthpiece (Black)",
     "MSRP": "$11.95",
     "Price": "$11.95",
@@ -1817,7 +1817,7 @@
   },
   {
     "ID": 71,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Adult Silicone Mouthpiece (Black)",
     "MSRP": "$11.95",
     "Price": "$11.95",
@@ -1833,7 +1833,7 @@
   },
   {
     "ID": 71,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Adult Silicone Mouthpiece (Black)",
     "MSRP": "$11.95",
     "Price": "$11.95",
@@ -1849,7 +1849,7 @@
   },
   {
     "ID": 72,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Combo Mouthpiece with Bridge",
     "MSRP": "$9.95",
     "Price": "$9.95",
@@ -1865,7 +1865,7 @@
   },
   {
     "ID": 73,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Dive Slate",
     "MSRP": "$9.95",
     "Price": "$9.95",
@@ -2171,7 +2171,7 @@
   },
   {
     "ID": 83,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Mesh Duffle Gear Bag",
     "MSRP": "$39.95",
     "Price": "$39.95",
@@ -2187,7 +2187,7 @@
   },
   {
     "ID": 83,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Mesh Duffle Gear Bag",
     "MSRP": "$39.95",
     "Price": "$39.95",
@@ -2203,7 +2203,7 @@
   },
   {
     "ID": 84,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Large Scuba Gear Bag",
     "MSRP": "$39.95",
     "Price": "$39.95",
@@ -2219,7 +2219,7 @@
   },
   {
     "ID": 84,
-    "Brand": "Generic (Based on Product Type)",
+    "Brand": "Generic",
     "Product": "Large Scuba Gear Bag",
     "MSRP": "$39.95",
     "Price": "$39.95",
