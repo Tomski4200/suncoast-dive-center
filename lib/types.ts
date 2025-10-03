@@ -4,7 +4,7 @@ export interface ProductVariant {
   inventory: number;
 }
 
-export interface Product {
+export interface ProductEntry {
   ID: number;
   Brand: string;
   Product: string;
@@ -21,11 +21,32 @@ export interface Product {
   variants: ProductVariant[];
 }
 
+export interface ProductVariantDetail extends ProductEntry {
+  variantName: string;
+  variantId: string;
+}
+
+export interface Product {
+  ID: number;
+  Brand: string;
+  Product: string;
+  Category: string;
+  Badge: string | null;
+  Description: string;
+  "Spec Type 1": string | null;
+  "Spec Type 2": string | null;
+  basePrice: string;  // Lowest price among variants
+  priceRange: string; // e.g., "$899 - $1,195"
+  variants: ProductVariantDetail[];
+  defaultVariant: ProductVariantDetail;
+}
+
 export interface CartItem {
   productId: number;
+  variantId: string;
   product: Product;
+  variant: ProductVariantDetail;
   quantity: number;
-  variant?: ProductVariant;
 }
 
 export type SortOption = 'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'newest';

@@ -17,8 +17,9 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, onQuickView, onAddToCart }: ProductCardProps) {
   const imageUrl = getStaticProductImage(product.ID);
-  const isOnSale = product.MSRP !== product.Price;
   const inStock = hasInventory(product);
+  const hasMultipleVariants = product.variants.length > 1;
+  const isOnSale = product.variants.some(v => v.MSRP !== v.Price);
 
   // Badge colors
   const getBadgeColor = (badge: string) => {
@@ -228,34 +229,36 @@ export default function ProductCard({ product, onQuickView, onAddToCart }: Produ
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem'
+            gap: '0.5rem',
+            flexWrap: 'wrap'
           }}>
             <span style={{
               fontSize: '1.25rem',
               fontWeight: 700,
               color: '#ffefbf'
             }}>
-              {product.Price}
+              {product.priceRange}
             </span>
             {isOnSale && (
               <span style={{
-                fontSize: '0.875rem',
-                color: 'rgba(255, 239, 191, 0.5)',
-                textDecoration: 'line-through'
+                fontSize: '0.75rem',
+                color: '#ff6b6b',
+                textTransform: 'uppercase',
+                fontWeight: 600
               }}>
-                {product.MSRP}
+                Sale
               </span>
             )}
           </div>
 
           {/* Variants Indicator */}
-          {product.variants.length > 0 && (
+          {hasMultipleVariants && (
             <div style={{
               marginTop: '0.5rem',
               fontSize: '0.75rem',
               color: 'rgba(255, 239, 191, 0.7)'
             }}>
-              {product.variants.length} size{product.variants.length > 1 ? 's' : ''} available
+              {product.variants.length} variant{product.variants.length > 1 ? 's' : ''} available
             </div>
           )}
         </div>
