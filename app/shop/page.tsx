@@ -22,7 +22,6 @@ export default function ShopPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedBadges, setSelectedBadges] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>(getPriceRange());
   const [sortBy, setSortBy] = useState<SortOption>('newest');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [showFilters, setShowFilters] = useState(true);
@@ -34,6 +33,12 @@ export default function ShopPage() {
   const brands = useMemo(() => getBrands(), []);
   const badges = useMemo(() => getBadges(), []);
   const [minPrice, maxPrice] = getPriceRange();
+  
+  // Initialize price range with rounded values
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    Math.floor(minPrice), 
+    Math.ceil(maxPrice)
+  ]);
 
   // Filter products
   const filteredProducts = useMemo(() => {
@@ -89,13 +94,13 @@ export default function ShopPage() {
     setSelectedCategories([]);
     setSelectedBrands([]);
     setSelectedBadges([]);
-    setPriceRange([minPrice, maxPrice]);
+    setPriceRange([Math.floor(minPrice), Math.ceil(maxPrice)]);
     setSortBy('newest');
   };
 
   const hasActiveFilters = searchQuery || selectedCategories.length > 0 || 
     selectedBrands.length > 0 || selectedBadges.length > 0 || 
-    priceRange[0] !== minPrice || priceRange[1] !== maxPrice;
+    priceRange[0] !== Math.floor(minPrice) || priceRange[1] !== Math.ceil(maxPrice);
 
   return (
     <div style={{ minHeight: '100vh', background: '#0a1628' }}>
@@ -282,12 +287,68 @@ export default function ShopPage() {
                   }}>
                     Price Range
                   </h4>
-                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  
+                  {/* Price Display */}
+                  <div style={{ 
+                    fontSize: '1rem', 
+                    color: '#ffefbf',
+                    marginBottom: '0.75rem',
+                    textAlign: 'center'
+                  }}>
+                    ${Math.round(priceRange[0])} - ${Math.round(priceRange[1])}
+                  </div>
+
+                  {/* Range Slider */}
+                  <div style={{ marginBottom: '0.75rem' }}>
                     <input
-                      type="number"
+                      type="range"
+                      min={Math.floor(minPrice)}
+                      max={Math.ceil(maxPrice)}
                       value={priceRange[0]}
                       onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
                       style={{
+                        width: '100%',
+                        height: '6px',
+                        background: `linear-gradient(to right, 
+                          rgba(255, 239, 191, 0.1) 0%, 
+                          #8cda3f ${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%, 
+                          #8cda3f ${((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%, 
+                          rgba(255, 239, 191, 0.1) 100%)`,
+                        borderRadius: '3px',
+                        outline: 'none',
+                        cursor: 'pointer',
+                        accentColor: '#8cda3f'
+                      }}
+                    />
+                    <input
+                      type="range"
+                      min={Math.floor(minPrice)}
+                      max={Math.ceil(maxPrice)}
+                      value={priceRange[1]}
+                      onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                      style={{
+                        width: '100%',
+                        height: '6px',
+                        background: 'transparent',
+                        outline: 'none',
+                        cursor: 'pointer',
+                        marginTop: '-6px',
+                        position: 'relative',
+                        accentColor: '#8cda3f'
+                      }}
+                    />
+                  </div>
+
+                  {/* Number Inputs */}
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <input
+                      type="number"
+                      value={Math.round(priceRange[0])}
+                      onChange={(e) => setPriceRange([Math.round(Number(e.target.value)), priceRange[1]])}
+                      min={Math.floor(minPrice)}
+                      max={Math.ceil(priceRange[1])}
+                      step="1"
+                      style={{
                         width: '50%',
                         padding: '6px',
                         background: 'rgba(255, 255, 255, 0.05)',
@@ -299,8 +360,11 @@ export default function ShopPage() {
                     />
                     <input
                       type="number"
-                      value={priceRange[1]}
-                      onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                      value={Math.round(priceRange[1])}
+                      onChange={(e) => setPriceRange([priceRange[0], Math.round(Number(e.target.value))])}
+                      min={Math.floor(priceRange[0])}
+                      max={Math.ceil(maxPrice)}
+                      step="1"
                       style={{
                         width: '50%',
                         padding: '6px',
@@ -311,12 +375,6 @@ export default function ShopPage() {
                         fontSize: '0.875rem'
                       }}
                     />
-                  </div>
-                  <div style={{ 
-                    fontSize: '0.75rem', 
-                    color: 'rgba(255, 239, 191, 0.6)' 
-                  }}>
-                    ${priceRange[0]} - ${priceRange[1]}
                   </div>
                 </div>
 
