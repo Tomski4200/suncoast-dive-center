@@ -10,7 +10,6 @@ import {
   ChevronRight, Download, Printer, HelpCircle
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface OrderItem {
@@ -622,8 +621,6 @@ export default function OrderDetailsPage() {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }

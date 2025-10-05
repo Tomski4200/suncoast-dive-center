@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -16,59 +16,102 @@ interface Category {
   featured?: boolean;
 }
 
-const categories: Category[] = [
-  {
-    id: 1,
-    name: 'Regulators',
-    description: 'Professional breathing apparatus',
-    image: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=600',
-    itemCount: 45,
-    href: '/diveshop/regulators',
-    featured: true
-  },
-  {
-    id: 2,
-    name: 'BCDs',
-    description: 'Buoyancy control devices',
-    image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=600',
-    itemCount: 32,
-    href: '/diveshop/bcds'
-  },
-  {
-    id: 3,
-    name: 'Wetsuits',
-    description: 'Thermal protection',
-    image: 'https://images.unsplash.com/photo-1502933691298-84fc14542831?w=600',
-    itemCount: 58,
-    href: '/diveshop/wetsuits'
-  },
-  {
-    id: 4,
-    name: 'Masks & Fins',
-    description: 'Essential dive gear',
-    image: 'https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=600',
-    itemCount: 76,
-    href: '/diveshop/masks-fins'
-  },
-  {
-    id: 5,
-    name: 'Dive Computers',
-    description: 'Advanced monitoring',
-    image: 'https://images.unsplash.com/photo-1592833159057-6cdbeb6bab10?w=600',
-    itemCount: 28,
-    href: '/diveshop/computers'
-  },
-  {
-    id: 6,
-    name: 'Accessories',
-    description: 'Complete your kit',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600',
-    itemCount: 124,
-    href: '/diveshop/accessories'
-  }
-];
+interface DBCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  itemCount: number;
+  image_url: string | null;
+  display_order: number;
+}
+
+// Placeholder images for categories (used when no image_url in database)
+const placeholderImages: { [key: string]: string } = {
+  'Regulators': 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=600',
+  'BCDs': 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=600',
+  'Wetsuits': 'https://images.unsplash.com/photo-1502933691298-84fc14542831?w=600',
+  'Masks': 'https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=600',
+  'Fins': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600',
+  'Computers': 'https://images.unsplash.com/photo-1592833159057-6cdbeb6bab10?w=600',
+  'Accessories': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600',
+  'Lights': 'https://images.unsplash.com/photo-1592833159057-6cdbeb6bab10?w=600',
+  'Bags': 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600',
+  'default': 'https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=600'
+};
+
+// Default descriptions for categories
+const defaultDescriptions: { [key: string]: string } = {
+  'Regulators': 'Professional breathing apparatus',
+  'BCDs': 'Buoyancy control devices',
+  'Wetsuits': 'Thermal protection',
+  'Masks': 'Crystal clear visibility',
+  'Fins': 'Efficient propulsion',
+  'Computers': 'Advanced monitoring',
+  'Accessories': 'Complete your kit',
+  'Lights': 'Illuminate the depths',
+  'Bags': 'Gear organization',
+  'Snorkels': 'Surface breathing',
+  'Gauges': 'Pressure monitoring',
+  'Knives': 'Safety tools',
+  'Spearguns': 'Underwater hunting',
+  'Gloves': 'Hand protection',
+  'Apparel': 'Dive wear',
+  'Packages': 'Complete gear sets',
+  'Services': 'Expert support',
+  'Used': 'Quality pre-owned gear',
+  'default': 'Quality diving equipment'
+};
 
 const CategoryGrid: React.FC = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await fetch('/api/categories');
+        if (response.ok) {
+          const data: DBCategory[] = await response.json();
+
+          // Transform database categories to component format
+          // Only show first 6 categories with products
+          const transformedCategories = data
+            .filter(cat => cat.itemCount > 0)
+            .slice(0, 6)
+            .map((cat, index) => ({
+              id: cat.id,
+              name: cat.name,
+              description: cat.description || defaultDescriptions[cat.name] || defaultDescriptions['default'],
+              image: cat.image_url || placeholderImages[cat.name] || placeholderImages['default'],
+              itemCount: cat.itemCount,
+              href: `/diveshop/category/${cat.slug}`,
+              featured: index === 0 // First category is featured
+            }));
+
+          setCategories(transformedCategories);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <div style={{ textAlign: 'center', color: '#ffefbf', padding: '4rem' }}>
+            Loading categories...
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section className={styles.section}>
       <div className={styles.container}>

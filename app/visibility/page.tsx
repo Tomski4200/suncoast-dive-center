@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Eye, TrendingUp, TrendingDown, Minus, Wind, Waves, 
+import {
+  Eye, TrendingUp, TrendingDown, Minus, Wind, Waves,
   Sun, Cloud, CloudRain, Thermometer, Droplets, Navigation as NavigationIcon,
-  Calendar, Clock, MapPin, AlertCircle, Camera, Fish
+  Calendar, Clock, MapPin, AlertCircle, Camera, Fish, Info, Activity
 } from 'lucide-react';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
@@ -559,35 +559,83 @@ export default function VisibilityPage() {
                   justifyContent: 'center',
                   flexWrap: 'wrap'
                 }}>
-                  <span style={{
-                    padding: '0.5rem 1rem',
-                    background: 'rgba(140, 218, 63, 0.1)',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(140, 218, 63, 0.3)',
-                    color: '#8cda3f',
-                    fontSize: '0.875rem'
-                  }}>
-                    📍 Live GPS Tracking
+                  <span
+                    style={{
+                      padding: '0.5rem 1rem',
+                      background: 'rgba(255, 239, 191, 0.1)',
+                      borderRadius: '20px',
+                      border: '1px solid rgba(255, 239, 191, 0.3)',
+                      color: '#ffefbf',
+                      fontSize: '0.875rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = '#8cda3f';
+                      e.currentTarget.style.boxShadow = '0 0 20px rgba(140, 218, 63, 0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 239, 191, 0.3)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <MapPin size={16} />
+                    GPS Tracking
                   </span>
-                  <span style={{
-                    padding: '0.5rem 1rem',
-                    background: 'rgba(255, 239, 191, 0.1)',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(255, 239, 191, 0.3)',
-                    color: '#ffefbf',
-                    fontSize: '0.875rem'
-                  }}>
-                    🎯 Site Details
+                  <span
+                    style={{
+                      padding: '0.5rem 1rem',
+                      background: 'rgba(255, 239, 191, 0.1)',
+                      borderRadius: '20px',
+                      border: '1px solid rgba(255, 239, 191, 0.3)',
+                      color: '#ffefbf',
+                      fontSize: '0.875rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = '#8cda3f';
+                      e.currentTarget.style.boxShadow = '0 0 20px rgba(140, 218, 63, 0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 239, 191, 0.3)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <Info size={16} />
+                    Site Details
                   </span>
-                  <span style={{
-                    padding: '0.5rem 1rem',
-                    background: 'rgba(74, 222, 128, 0.1)',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(74, 222, 128, 0.3)',
-                    color: '#4ade80',
-                    fontSize: '0.875rem'
-                  }}>
-                    📊 Live Reports
+                  <span
+                    style={{
+                      padding: '0.5rem 1rem',
+                      background: 'rgba(255, 239, 191, 0.1)',
+                      borderRadius: '20px',
+                      border: '1px solid rgba(255, 239, 191, 0.3)',
+                      color: '#ffefbf',
+                      fontSize: '0.875rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = '#8cda3f';
+                      e.currentTarget.style.boxShadow = '0 0 20px rgba(140, 218, 63, 0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 239, 191, 0.3)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <Activity size={16} />
+                    Live Reports
                   </span>
                 </div>
               </div>

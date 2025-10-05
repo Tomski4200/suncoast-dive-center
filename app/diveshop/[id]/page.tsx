@@ -22,26 +22,65 @@ import styles from './ProductDetail.module.css';
 export default function ProductDetailPage() {
   const params = useParams();
   const id = parseInt(params.id as string);
-  const product = getProductById(id);
   const { addToCart } = useCart();
-  
+
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedVariant, setSelectedVariant] = useState<ProductVariantDetail | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [showAddedToCart, setShowAddedToCart] = useState(false);
-  
+
+  // Load product data
   useEffect(() => {
-    if (product) {
-      setSelectedVariant(product.defaultVariant);
+    async function loadProduct() {
+      setLoading(true);
+      try {
+        const [prod, related] = await Promise.all([
+          getProductById(id),
+          getRelatedProducts(id, 4)
+        ]);
+
+        if (!prod) {
+          notFound();
+        }
+
+        setProduct(prod);
+        setRelatedProducts(related);
+        setSelectedVariant(prod.defaultVariant);
+      } catch (error) {
+        console.error('Error loading product:', error);
+      } finally {
+        setLoading(false);
+      }
     }
-  }, [product]);
+    loadProduct();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#0a1628' }}>
+        <Navigation />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '400px',
+          color: '#ffefbf',
+          fontSize: '1.2rem'
+        }}>
+          Loading product...
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!product) {
     notFound();
   }
-
-  const relatedProducts = getRelatedProducts(id, 4);
   const images = getStaticProductImages(id);
   const hasMultipleVariants = product.variants.length > 1;
   const currentPrice = selectedVariant ? parsePrice(selectedVariant.Price) : parsePrice(product.basePrice);

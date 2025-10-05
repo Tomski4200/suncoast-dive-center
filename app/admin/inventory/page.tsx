@@ -11,7 +11,6 @@ import {
   Upload, Image, PlusCircle, MinusCircle
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAllRawProducts } from '@/lib/inventory';
 import { Product } from '@/lib/types';
@@ -61,9 +60,12 @@ export default function InventoryManagement() {
   
   // Load products
   useEffect(() => {
-    const allProducts = getAllRawProducts();
-    setProducts(allProducts);
-    setFilteredProducts(allProducts);
+    async function loadProducts() {
+      const allProducts = await getAllRawProducts();
+      setProducts(allProducts);
+      setFilteredProducts(allProducts);
+    }
+    loadProducts();
   }, []);
   
   // Filter and sort products
@@ -1421,8 +1423,6 @@ export default function InventoryManagement() {
           </motion.div>
         )}
       </div>
-      
-      <Footer />
     </div>
   );
 }

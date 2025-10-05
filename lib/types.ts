@@ -39,6 +39,7 @@ export interface Product {
   priceRange: string; // e.g., "$899 - $1,195"
   variants: ProductVariantDetail[];
   defaultVariant: ProductVariantDetail;
+  imageUrl?: string; // URL to product image in Supabase storage
 }
 
 export interface CartItem {

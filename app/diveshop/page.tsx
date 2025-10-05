@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Search, Filter, X, ChevronDown, Grid, List, 
+import {
+  Search, Filter, X, ChevronDown, ChevronUp, Grid, List,
   SlidersHorizontal, Package, Tag
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
@@ -18,7 +19,13 @@ import { Product, SortOption, ViewMode } from '@/lib/types';
 
 export default function ShopPage() {
   // State
-  const [products] = useState<Product[]>(getAllProducts());
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>([]);
+  const [badges, setBadges] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
@@ -27,38 +34,114 @@ export default function ShopPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [showFilters, setShowFilters] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 24;
+  const [productsPerPage, setProductsPerPage] = useState(24);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(10000);
+  const [tableSortColumn, setTableSortColumn] = useState<'brand' | 'name' | 'category' | 'price'>('name');
+  const [tableSortDirection, setTableSortDirection] = useState<'asc' | 'desc'>('asc');
 
-  // Get filter options
-  const categories = useMemo(() => getCategories(), []);
-  const brands = useMemo(() => getBrands(), []);
-  const badges = useMemo(() => getBadges(), []);
-  const [minPrice, maxPrice] = getPriceRange();
-  
-  // Initialize price range with rounded values
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    Math.floor(minPrice), 
-    Math.ceil(maxPrice)
-  ]);
+  // Load initial data
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      try {
+        const [prods, cats, brds, bdgs, priceRng] = await Promise.all([
+          getAllProducts(),
+          getCategories(),
+          getBrands(),
+          getBadges(),
+          getPriceRange()
+        ]);
 
-  // Filter products
-  const filteredProducts = useMemo(() => {
-    return filterProducts({
-      searchQuery,
-      categories: selectedCategories,
-      brands: selectedBrands,
-      badges: selectedBadges,
-      priceRange,
-      sortBy
-    });
-  }, [searchQuery, selectedCategories, selectedBrands, selectedBadges, priceRange, sortBy]);
+        setProducts(prods);
+        setFilteredProducts(prods);
+        setCategories(cats);
+        setBrands(brds);
+        setBadges(bdgs);
+        const min = Math.floor(priceRng[0]);
+        const max = Math.ceil(priceRng[1]);
+        setMinPrice(min);
+        setMaxPrice(max);
+        setPriceRange([min, max]);
+      } catch (error) {
+        console.error('Error loading products:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  // Filter products when filters change
+  useEffect(() => {
+    async function applyFilters() {
+      if (products.length === 0) return;
+
+      const filtered = await filterProducts({
+        searchQuery,
+        categories: selectedCategories,
+        brands: selectedBrands,
+        badges: selectedBadges,
+        priceRange,
+        sortBy
+      });
+      setFilteredProducts(filtered);
+    }
+    applyFilters();
+  }, [searchQuery, selectedCategories, selectedBrands, selectedBadges, priceRange, sortBy, products]);
 
   // Pagination
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-  const paginatedProducts = filteredProducts.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
-  );
+  const totalPages = productsPerPage === -1 ? 1 : Math.ceil(filteredProducts.length / productsPerPage);
+  const paginatedProducts = productsPerPage === -1
+    ? filteredProducts
+    : filteredProducts.slice(
+        (currentPage - 1) * productsPerPage,
+        currentPage * productsPerPage
+      );
+
+  // Table sorting handler
+  const handleTableSort = (column: 'brand' | 'name' | 'category' | 'price') => {
+    if (tableSortColumn === column) {
+      setTableSortDirection(tableSortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setTableSortColumn(column);
+      setTableSortDirection('asc');
+    }
+  };
+
+  // Apply table sorting to paginated products for list view
+  const displayProducts = viewMode === 'list'
+    ? [...paginatedProducts].sort((a, b) => {
+        let aVal, bVal;
+        switch (tableSortColumn) {
+          case 'brand':
+            aVal = a.Brand.toLowerCase();
+            bVal = b.Brand.toLowerCase();
+            break;
+          case 'name':
+            aVal = a.Product.toLowerCase();
+            bVal = b.Product.toLowerCase();
+            break;
+          case 'category':
+            aVal = (a.Category || '').toLowerCase();
+            bVal = (b.Category || '').toLowerCase();
+            break;
+          case 'price':
+            aVal = parsePrice(a.basePrice);
+            bVal = parsePrice(b.basePrice);
+            break;
+          default:
+            return 0;
+        }
+
+        if (tableSortDirection === 'asc') {
+          return aVal > bVal ? 1 : -1;
+        } else {
+          return aVal < bVal ? 1 : -1;
+        }
+      })
+    : paginatedProducts;
 
   // Reset page when filters change
   useEffect(() => {
@@ -90,18 +173,24 @@ export default function ShopPage() {
     );
   };
 
-  const clearFilters = () => {
+  const clearFilters = async () => {
     setSearchQuery('');
     setSelectedCategories([]);
     setSelectedBrands([]);
     setSelectedBadges([]);
-    setPriceRange([Math.floor(minPrice), Math.ceil(maxPrice)]);
     setSortBy('newest');
+
+    // Reset price range to full range
+    const [min, max] = await getPriceRange();
+    const minVal = Math.floor(min);
+    const maxVal = Math.ceil(max);
+    setMinPrice(minVal);
+    setMaxPrice(maxVal);
+    setPriceRange([minVal, maxVal]);
   };
 
-  const hasActiveFilters = searchQuery || selectedCategories.length > 0 || 
-    selectedBrands.length > 0 || selectedBadges.length > 0 || 
-    priceRange[0] !== Math.floor(minPrice) || priceRange[1] !== Math.ceil(maxPrice);
+  const hasActiveFilters = searchQuery || selectedCategories.length > 0 ||
+    selectedBrands.length > 0 || selectedBadges.length > 0;
 
   return (
     <div style={{ minHeight: '100vh', background: '#0a1628' }}>
@@ -482,25 +571,51 @@ export default function ShopPage() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-              {/* Sort Dropdown */}
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              {/* Sort Dropdown - Only shown in grid view */}
+              {viewMode === 'grid' && (
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
+                  style={{
+                    background: 'rgba(30, 58, 95, 0.3)',
+                    border: '1px solid rgba(255, 239, 191, 0.2)',
+                    borderRadius: '8px',
+                    padding: '8px 12px',
+                    color: '#ffefbf',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="name-asc">Name: A-Z</option>
+                  <option value="name-desc">Name: Z-A</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                </select>
+              )}
+
+              {/* Items Per Page Selector */}
               <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                value={productsPerPage}
+                onChange={(e) => {
+                  setProductsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
                 style={{
                   background: 'rgba(30, 58, 95, 0.3)',
                   border: '1px solid rgba(255, 239, 191, 0.2)',
                   borderRadius: '8px',
                   padding: '8px 12px',
                   color: '#ffefbf',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  fontSize: '0.875rem'
                 }}
               >
-                <option value="newest">Newest First</option>
-                <option value="name-asc">Name: A-Z</option>
-                <option value="name-desc">Name: Z-A</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
+                <option value={24}>24 per page</option>
+                <option value={48}>48 per page</option>
+                <option value={72}>72 per page</option>
+                <option value={96}>96 per page</option>
+                <option value={-1}>All items</option>
               </select>
 
               {/* View Mode */}
@@ -508,8 +623,8 @@ export default function ShopPage() {
                 <button
                   onClick={() => setViewMode('grid')}
                   style={{
-                    background: viewMode === 'grid' 
-                      ? 'rgba(140, 218, 63, 0.2)' 
+                    background: viewMode === 'grid'
+                      ? 'rgba(140, 218, 63, 0.2)'
                       : 'transparent',
                     border: '1px solid rgba(255, 239, 191, 0.2)',
                     borderRadius: '4px',
@@ -523,8 +638,8 @@ export default function ShopPage() {
                 <button
                   onClick={() => setViewMode('list')}
                   style={{
-                    background: viewMode === 'list' 
-                      ? 'rgba(140, 218, 63, 0.2)' 
+                    background: viewMode === 'list'
+                      ? 'rgba(140, 218, 63, 0.2)'
                       : 'transparent',
                     border: '1px solid rgba(255, 239, 191, 0.2)',
                     borderRadius: '4px',
@@ -539,21 +654,263 @@ export default function ShopPage() {
             </div>
           </div>
 
-          {/* Products Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: viewMode === 'grid' 
-              ? 'repeat(auto-fill, minmax(250px, 1fr))' 
-              : '1fr',
-            gap: '1.5rem'
-          }}>
-            {paginatedProducts.map((product) => (
-              <ProductCard 
-                key={product.ID} 
-                product={product}
-              />
-            ))}
-          </div>
+          {/* Products Grid/Table */}
+          {loading ? (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '400px',
+              color: '#ffefbf',
+              fontSize: '1.2rem'
+            }}>
+              Loading products...
+            </div>
+          ) : filteredProducts.length === 0 ? (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '400px',
+              color: 'rgba(255, 239, 191, 0.7)',
+              fontSize: '1.2rem',
+              textAlign: 'center'
+            }}>
+              No products found matching your filters.
+            </div>
+          ) : viewMode === 'grid' ? (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+              gap: '1.5rem'
+            }}>
+              {displayProducts.map((product) => (
+                <ProductCard
+                  key={product.ID}
+                  product={product}
+                />
+              ))}
+            </div>
+          ) : (
+            <div style={{
+              background: 'rgba(30, 58, 95, 0.2)',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              border: '1px solid rgba(255, 239, 191, 0.1)'
+            }}>
+              <table style={{
+                width: '100%',
+                borderCollapse: 'collapse'
+              }}>
+                <thead>
+                  <tr style={{
+                    background: 'rgba(30, 58, 95, 0.5)',
+                    borderBottom: '2px solid rgba(140, 218, 63, 0.3)'
+                  }}>
+                    <th style={{
+                      padding: '1rem',
+                      textAlign: 'left',
+                      color: '#ffefbf',
+                      fontWeight: 600,
+                      fontSize: '0.875rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      width: '80px'
+                    }}>
+                      Image
+                    </th>
+                    <th
+                      onClick={() => handleTableSort('brand')}
+                      style={{
+                        padding: '1rem',
+                        textAlign: 'left',
+                        color: '#ffefbf',
+                        fontWeight: 600,
+                        fontSize: '0.875rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        transition: 'color 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#ffefbf'}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        Brand
+                        {tableSortColumn === 'brand' && (
+                          tableSortDirection === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                        )}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => handleTableSort('name')}
+                      style={{
+                        padding: '1rem',
+                        textAlign: 'left',
+                        color: '#ffefbf',
+                        fontWeight: 600,
+                        fontSize: '0.875rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        transition: 'color 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#ffefbf'}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        Product Name
+                        {tableSortColumn === 'name' && (
+                          tableSortDirection === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                        )}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => handleTableSort('category')}
+                      style={{
+                        padding: '1rem',
+                        textAlign: 'left',
+                        color: '#ffefbf',
+                        fontWeight: 600,
+                        fontSize: '0.875rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        transition: 'color 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#ffefbf'}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        Category
+                        {tableSortColumn === 'category' && (
+                          tableSortDirection === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                        )}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => handleTableSort('price')}
+                      style={{
+                        padding: '1rem',
+                        textAlign: 'left',
+                        color: '#ffefbf',
+                        fontWeight: 600,
+                        fontSize: '0.875rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        transition: 'color 0.3s ease',
+                        width: '120px'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#ffefbf'}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        Price
+                        {tableSortColumn === 'price' && (
+                          tableSortDirection === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                        )}
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayProducts.map((product, index) => (
+                    <tr
+                      key={product.ID}
+                      style={{
+                        borderBottom: '1px solid rgba(255, 239, 191, 0.1)',
+                        transition: 'background 0.3s ease',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(140, 218, 63, 0.05)'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                      onClick={() => window.location.href = `/diveshop/${product.ID}`}
+                    >
+                      <td style={{ padding: '1rem' }}>
+                        <div style={{
+                          width: '60px',
+                          height: '60px',
+                          position: 'relative',
+                          borderRadius: '8px',
+                          overflow: 'hidden',
+                          background: 'rgba(10, 22, 40, 0.5)',
+                          border: '1px solid rgba(255, 239, 191, 0.1)'
+                        }}>
+                          {product.imageUrl ? (
+                            <Image
+                              src={product.imageUrl}
+                              alt={product.Product}
+                              fill
+                              style={{ objectFit: 'cover' }}
+                            />
+                          ) : (
+                            <div style={{
+                              width: '100%',
+                              height: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'rgba(255, 239, 191, 0.3)',
+                              fontSize: '0.75rem'
+                            }}>
+                              No Image
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td style={{
+                        padding: '1rem',
+                        color: 'rgba(255, 239, 191, 0.8)',
+                        fontSize: '0.875rem'
+                      }}>
+                        {product.Brand || 'N/A'}
+                      </td>
+                      <td style={{
+                        padding: '1rem',
+                        color: '#ffefbf',
+                        fontWeight: 500
+                      }}>
+                        {product.Product}
+                        {product.Badge && (
+                          <span style={{
+                            marginLeft: '0.5rem',
+                            padding: '2px 8px',
+                            background: 'rgba(140, 218, 63, 0.2)',
+                            color: '#8cda3f',
+                            borderRadius: '12px',
+                            fontSize: '0.75rem',
+                            fontWeight: 600
+                          }}>
+                            {product.Badge}
+                          </span>
+                        )}
+                      </td>
+                      <td style={{
+                        padding: '1rem',
+                        color: 'rgba(255, 239, 191, 0.7)',
+                        fontSize: '0.875rem'
+                      }}>
+                        {product.Category || 'N/A'}
+                      </td>
+                      <td style={{
+                        padding: '1rem',
+                        color: '#8cda3f',
+                        fontWeight: 600,
+                        fontSize: '1rem'
+                      }}>
+                        {product.priceRange}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
 
           {/* Pagination */}
           {totalPages > 1 && (

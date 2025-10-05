@@ -1,153 +1,204 @@
-import blogsData from '../blogs.json';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export interface BlogPost {
+  id?: number;
   author: string;
   date: string;
   title: string;
   excerpt_text: string;
   short_blog_entry: string;
   slug?: string;
+  category_name?: string;
+  category_slug?: string;
+  is_featured?: boolean;
 }
 
-// Generate SEO-friendly slug from title
-function generateSlug(title: string, index: number): string {
-  const baseSlug = title
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/--+/g, '-') // Replace multiple hyphens with single
-    .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
-    .slice(0, 60); // Limit length for URL friendliness
-  
-  // Add index to ensure uniqueness
-  return `${baseSlug}-${index}`;
+// Format published_date from database to display format
+function formatPublishedDate(publishedDate: string): string {
+  const date = new Date(publishedDate);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
-
-// Parse date string to Date object
-function parseDate(dateStr: string): Date {
-  // Handle various date formats
-  const date = new Date(dateStr);
-  if (isNaN(date.getTime())) {
-    // Try parsing with different format
-    const parts = dateStr.split(' ');
-    const months: { [key: string]: number } = {
-      'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
-      'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
-    };
-    if (parts.length >= 3) {
-      const month = months[parts[0]];
-      const day = parseInt(parts[1]);
-      const year = parseInt(parts[2]);
-      return new Date(year, month, day);
-    }
-  }
-  return date;
-}
-
-// Process and enrich blog data with slugs
-const processedBlogs: BlogPost[] = blogsData.map((blog: any, index: number) => ({
-  ...blog,
-  slug: generateSlug(blog.title, index + 1)
-}));
-
-// Sort blogs by date (newest first)
-processedBlogs.sort((a, b) => {
-  const dateA = parseDate(a.date);
-  const dateB = parseDate(b.date);
-  return dateB.getTime() - dateA.getTime();
-});
 
 // Get all blog posts
-export function getAllBlogPosts(): BlogPost[] {
-  return processedBlogs;
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+  const { data, error } = await supabase
+    .from('blog_posts_with_categories')
+    .select('*')
+    .eq('is_published', true)
+    .order('published_date', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching blog posts:', error);
+    return [];
+  }
+
+  return data.map(post => ({
+    id: post.id,
+    author: post.author,
+    date: formatPublishedDate(post.published_date),
+    title: post.title,
+    excerpt_text: post.excerpt_text,
+    short_blog_entry: post.short_blog_entry,
+    slug: post.slug,
+    category_name: post.category_name,
+    category_slug: post.category_slug,
+    is_featured: post.is_featured
+  }));
 }
 
 // Get a single blog post by slug
-export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  return processedBlogs.find(post => post.slug === slug);
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+  const { data, error } = await supabase
+    .from('blog_posts_with_categories')
+    .select('*')
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .single();
+
+  if (error || !data) {
+    console.error('Error fetching blog post:', error);
+    return undefined;
+  }
+
+  return {
+    id: data.id,
+    author: data.author,
+    date: formatPublishedDate(data.published_date),
+    title: data.title,
+    excerpt_text: data.excerpt_text,
+    short_blog_entry: data.short_blog_entry,
+    slug: data.slug,
+    category_name: data.category_name,
+    category_slug: data.category_slug,
+    is_featured: data.is_featured
+  };
 }
 
 // Get recent blog posts for homepage or sidebar
-export function getRecentBlogPosts(limit: number = 3): BlogPost[] {
-  return processedBlogs.slice(0, limit);
+export async function getRecentBlogPosts(limit: number = 3): Promise<BlogPost[]> {
+  const { data, error } = await supabase
+    .from('blog_posts_with_categories')
+    .select('*')
+    .eq('is_published', true)
+    .order('published_date', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching recent blog posts:', error);
+    return [];
+  }
+
+  return data.map(post => ({
+    id: post.id,
+    author: post.author,
+    date: formatPublishedDate(post.published_date),
+    title: post.title,
+    excerpt_text: post.excerpt_text,
+    short_blog_entry: post.short_blog_entry,
+    slug: post.slug,
+    category_name: post.category_name,
+    category_slug: post.category_slug,
+    is_featured: post.is_featured
+  }));
 }
 
 // Get blog posts by author
-export function getBlogPostsByAuthor(author: string): BlogPost[] {
-  return processedBlogs.filter(post => 
-    post.author.toLowerCase() === author.toLowerCase()
-  );
+export async function getBlogPostsByAuthor(author: string): Promise<BlogPost[]> {
+  const { data, error } = await supabase
+    .from('blog_posts_with_categories')
+    .select('*')
+    .eq('author', author)
+    .eq('is_published', true)
+    .order('published_date', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching blog posts by author:', error);
+    return [];
+  }
+
+  return data.map(post => ({
+    id: post.id,
+    author: post.author,
+    date: formatPublishedDate(post.published_date),
+    title: post.title,
+    excerpt_text: post.excerpt_text,
+    short_blog_entry: post.short_blog_entry,
+    slug: post.slug,
+    category_name: post.category_name,
+    category_slug: post.category_slug,
+    is_featured: post.is_featured
+  }));
 }
 
 // Format date for display
 export function formatBlogDate(dateStr: string): string {
-  const date = parseDate(dateStr);
-  const options: Intl.DateTimeFormatOptions = { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  // If it's already formatted (e.g., "Sep 13, 2025"), return as-is
+  if (/^[A-Z][a-z]{2} \d{1,2}, \d{4}$/.test(dateStr)) {
+    return dateStr;
+  }
+
+  // Otherwise, parse and format
+  const date = new Date(dateStr);
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
   };
   return date.toLocaleDateString('en-US', options);
 }
 
-// Get related blog posts (same author or similar title keywords)
-export function getRelatedBlogPosts(currentSlug: string, limit: number = 3): BlogPost[] {
-  const currentPost = getBlogPostBySlug(currentSlug);
+// Get related blog posts (same category or similar author)
+export async function getRelatedBlogPosts(currentSlug: string, limit: number = 3): Promise<BlogPost[]> {
+  // First, get the current post to find its category
+  const currentPost = await getBlogPostBySlug(currentSlug);
   if (!currentPost) return [];
-  
-  // Get keywords from current post title
-  const keywords = currentPost.title.toLowerCase().split(' ')
-    .filter(word => word.length > 3); // Filter out short words
-  
-  return processedBlogs
-    .filter(post => post.slug !== currentSlug)
-    .map(post => {
-      let score = 0;
-      
-      // Same author gets higher score
-      if (post.author === currentPost.author) score += 3;
-      
-      // Count matching keywords in title
-      const postKeywords = post.title.toLowerCase().split(' ');
-      keywords.forEach(keyword => {
-        if (postKeywords.includes(keyword)) score += 1;
-      });
-      
-      return { post, score };
-    })
-    .filter(item => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit)
-    .map(item => item.post);
+
+  // Get posts from same category, excluding current post
+  const { data, error } = await supabase
+    .from('blog_posts_with_categories')
+    .select('*')
+    .eq('is_published', true)
+    .neq('slug', currentSlug)
+    .or(`category_slug.eq.${currentPost.category_slug},author.eq.${currentPost.author}`)
+    .order('published_date', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching related blog posts:', error);
+    return [];
+  }
+
+  return data.map(post => ({
+    id: post.id,
+    author: post.author,
+    date: formatPublishedDate(post.published_date),
+    title: post.title,
+    excerpt_text: post.excerpt_text,
+    short_blog_entry: post.short_blog_entry,
+    slug: post.slug,
+    category_name: post.category_name,
+    category_slug: post.category_slug,
+    is_featured: post.is_featured
+  }));
 }
 
-// Get blog categories based on content patterns
-export function getBlogCategories(): string[] {
-  const categories = new Set<string>();
-  
-  processedBlogs.forEach(post => {
-    const title = post.title.toLowerCase();
-    const content = (post.excerpt_text + ' ' + post.short_blog_entry).toLowerCase();
-    
-    if (title.includes('scallop') || content.includes('scallop')) {
-      categories.add('Scalloping');
-    }
-    if (title.includes('lobster') || content.includes('lobster')) {
-      categories.add('Lobstering');
-    }
-    if (title.includes('water') || title.includes('visibility') || title.includes('conditions')) {
-      categories.add('Conditions');
-    }
-    if (title.includes('whale') || content.includes('whale shark')) {
-      categories.add('Wildlife');
-    }
-    if (title.includes('sale') || title.includes('season')) {
-      categories.add('Seasonal');
-    }
-    if (title.includes('gear') || title.includes('equipment')) {
-      categories.add('Equipment');
-    }
-  });
-  
-  return Array.from(categories).sort();
+// Get blog categories based on actual data in database
+export async function getBlogCategories(): Promise<string[]> {
+  const { data, error } = await supabase
+    .from('blog_categories')
+    .select('name')
+    .order('display_order');
+
+  if (error) {
+    console.error('Error fetching blog categories:', error);
+    return [];
+  }
+
+  return data.map(cat => cat.name);
 }

@@ -10,7 +10,6 @@ import {
   ChevronRight, Award, TrendingUp
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 
@@ -571,8 +570,6 @@ export default function DashboardPage() {
           </motion.div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }

@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: 'thumbs.dreamstime.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'whtmqicghstlquhycbvp.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
     ],
   },
 }

@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './FeaturedProducts.module.css';
 
-interface Product {
+interface DisplayProduct {
   id: number;
   name: string;
   price: number;
@@ -13,10 +13,9 @@ interface Product {
   image: string;
   category: string;
   badge?: string;
-  rating: number;
 }
 
-const products: Product[] = [
+const placeholderProducts: DisplayProduct[] = [
   {
     id: 1,
     name: 'AquaLung Pro BCD',
@@ -24,8 +23,7 @@ const products: Product[] = [
     originalPrice: 649.99,
     image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=500',
     category: 'BCDs',
-    badge: 'BEST SELLER',
-    rating: 4.8
+    badge: 'BEST SELLER'
   },
   {
     id: 2,
@@ -33,16 +31,14 @@ const products: Product[] = [
     price: 899.99,
     image: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=500',
     category: 'Regulators',
-    badge: 'NEW',
-    rating: 5.0
+    badge: 'NEW'
   },
   {
     id: 3,
     name: 'Cressi Full Face Mask',
     price: 129.99,
     image: 'https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=500',
-    category: 'Masks',
-    rating: 4.5
+    category: 'Masks'
   },
   {
     id: 4,
@@ -51,31 +47,68 @@ const products: Product[] = [
     originalPrice: 119.99,
     image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500',
     category: 'Fins',
-    badge: 'SALE',
-    rating: 4.6
+    badge: 'SALE'
   },
   {
     id: 5,
     name: 'Suunto Dive Computer',
     price: 599.99,
     image: 'https://images.unsplash.com/photo-1592833159057-6cdbeb6bab10?w=500',
-    category: 'Computers',
-    rating: 4.9
+    category: 'Computers'
   },
   {
     id: 6,
     name: 'Wetsuit 5mm Pro',
     price: 299.99,
     image: 'https://images.unsplash.com/photo-1502933691298-84fc14542831?w=500',
-    category: 'Wetsuits',
-    rating: 4.7
+    category: 'Wetsuits'
   }
 ];
+
+function convertToDisplayProduct(product: any): DisplayProduct {
+  // Price is already a number from database
+  const price = typeof product.price === 'number' ? product.price : 0;
+  const msrp = typeof product.msrp === 'number' ? product.msrp : null;
+
+  const originalPrice = msrp && msrp > price ? msrp : undefined;
+
+  return {
+    id: product.id,
+    name: product.name || 'Unknown Product',
+    price,
+    originalPrice,
+    image: product.image_url || 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=500',
+    category: product.category || 'General',
+    badge: product.badge || undefined
+  };
+}
 
 const FeaturedProducts: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
+  const [products, setProducts] = useState<DisplayProduct[]>(placeholderProducts);
+  const [loading, setLoading] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function fetchFeaturedProducts() {
+      try {
+        const response = await fetch('/api/featured-products');
+        if (response.ok) {
+          const data: any[] = await response.json();
+          const displayProducts = data.map(convertToDisplayProduct);
+          setProducts(displayProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching featured products:', error);
+        // Keep placeholder products on error
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchFeaturedProducts();
+  }, []);
 
   const itemsPerView = 4;
   const maxIndex = Math.max(0, products.length - itemsPerView);
@@ -86,20 +119,6 @@ const FeaturedProducts: React.FC = () => {
 
   const handleNext = () => {
     setCurrentIndex(prev => Math.min(maxIndex, prev + 1));
-  };
-
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <svg
-        key={i}
-        className={styles.star}
-        viewBox="0 0 20 20"
-        fill={i < Math.floor(rating) ? 'currentColor' : 'none'}
-        stroke="currentColor"
-      >
-        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-      </svg>
-    ));
   };
 
   return (
@@ -187,12 +206,6 @@ const FeaturedProducts: React.FC = () => {
                   <div className={styles.productInfo}>
                     <span className={styles.category}>{product.category}</span>
                     <h3 className={styles.productName}>{product.name}</h3>
-                    
-                    {/* Rating */}
-                    <div className={styles.rating}>
-                      {renderStars(product.rating)}
-                      <span className={styles.ratingValue}>({product.rating})</span>
-                    </div>
 
                     {/* Price */}
                     <div className={styles.priceWrapper}>

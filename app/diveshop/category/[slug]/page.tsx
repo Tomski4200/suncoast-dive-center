@@ -136,23 +136,26 @@ export default function CategoryPage() {
   const info = categoryInfo[category] || categoryInfo['default'];
 
   useEffect(() => {
-    const allProducts = getAllProducts();
-    const categoryProducts = allProducts.filter(p => 
-      p.Category?.toLowerCase().replace(/\s+/g, '-') === categorySlug
-    );
-    setProducts(categoryProducts);
-    setFilteredProducts(categoryProducts);
+    async function loadProducts() {
+      const allProducts = await getAllProducts();
+      const categoryProducts = allProducts.filter(p =>
+        p.Category?.toLowerCase().replace(/\s+/g, '-') === categorySlug
+      );
+      setProducts(categoryProducts);
+      setFilteredProducts(categoryProducts);
     
-    // Set price range based on category products
-    if (categoryProducts.length > 0) {
-      const prices = categoryProducts.map(p => {
-        const price = p.basePrice ? parseFloat(p.basePrice.replace(/[$,]/g, '')) : 0;
-        return price;
-      });
-      const minPrice = Math.floor(Math.min(...prices));
-      const maxPrice = Math.ceil(Math.max(...prices));
-      setPriceRange([minPrice, maxPrice]);
+      // Set price range based on category products
+      if (categoryProducts.length > 0) {
+        const prices = categoryProducts.map(p => {
+          const price = p.basePrice ? parseFloat(p.basePrice.replace(/[$,]/g, '')) : 0;
+          return price;
+        });
+        const minPrice = Math.floor(Math.min(...prices));
+        const maxPrice = Math.ceil(Math.max(...prices));
+        setPriceRange([minPrice, maxPrice]);
+      }
     }
+    loadProducts();
   }, [categorySlug]);
 
   // Get unique brands in this category

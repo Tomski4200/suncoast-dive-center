@@ -9,7 +9,6 @@ import {
   FileText, Eye, Save, X, Clock, Tag, Upload, Image
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { getAllBlogPosts, BlogPost } from '@/lib/blog';
 
@@ -45,9 +44,12 @@ export default function BlogManagement() {
   
   // Load blogs
   useEffect(() => {
-    const allBlogs = getAllBlogPosts();
-    setBlogs(allBlogs);
-    setFilteredBlogs(allBlogs);
+    const loadBlogs = async () => {
+      const allBlogs = await getAllBlogPosts();
+      setBlogs(allBlogs);
+      setFilteredBlogs(allBlogs);
+    };
+    loadBlogs();
   }, []);
   
   // Filter blogs
@@ -944,8 +946,6 @@ export default function BlogManagement() {
           </motion.div>
         )}
       </div>
-      
-      <Footer />
     </div>
   );
 }

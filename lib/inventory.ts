@@ -1,8 +1,11 @@
-import inventoryData from '../inventory.json';
 import { Product, ProductEntry, ProductVariantDetail, FilterOptions, SortOption } from './types';
+import { createClient } from '@supabase/supabase-js';
 
-// Type assertion for the imported JSON
-const rawProducts: ProductEntry[] = inventoryData as ProductEntry[];
+// Supabase client for fetching product data
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 // Helper function to extract variant name from product name
 function extractVariantName(product: ProductEntry): string {
@@ -12,27 +15,27 @@ function extractVariantName(product: ProductEntry): string {
     /\s-\s(.+)$/, // Anything after " - "
     /:\s(.+)$/,   // Anything after ": "
   ];
-  
+
   for (const pattern of patterns) {
     const match = product.Product.match(pattern);
     if (match) {
       return match[1];
     }
   }
-  
+
   // Fallback: use color or other differentiator
   if (product.Color) {
     return product.Color;
   }
-  
+
   // If no pattern matches, use the full product name
   return product.Product;
 }
 
 // Group products by ID to handle variants
-function groupProductVariants(entries: ProductEntry[]): Product[] {
+function groupProductVariants(entries: ProductEntry[], imageUrls: Map<number, string>): Product[] {
   const grouped = new Map<number, ProductEntry[]>();
-  
+
   // Group entries by ID
   entries.forEach(entry => {
     if (!grouped.has(entry.ID)) {
@@ -40,26 +43,26 @@ function groupProductVariants(entries: ProductEntry[]): Product[] {
     }
     grouped.get(entry.ID)!.push(entry);
   });
-  
+
   // Convert grouped entries to Product format
   const products: Product[] = [];
-  
+
   grouped.forEach((variants, id) => {
     // Sort variants by price (lowest first)
     variants.sort((a, b) => parsePrice(a.Price) - parsePrice(b.Price));
-    
+
     const firstVariant = variants[0];
     const prices = variants.map(v => parsePrice(v.Price));
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
-    
+
     // Create variant details
     const variantDetails: ProductVariantDetail[] = variants.map((v, index) => ({
       ...v,
       variantName: variants.length > 1 ? extractVariantName(v) : 'Default',
       variantId: `${id}-${index}`
     }));
-    
+
     // Extract base product name (remove variant suffixes)
     let baseProductName = firstVariant.Product;
     if (variants.length > 1) {
@@ -77,7 +80,7 @@ function groupProductVariants(entries: ProductEntry[]): Product[] {
         baseProductName = commonPrefix.trim().replace(/[-:,\s]+$/, '');
       }
     }
-    
+
     const product: Product = {
       ID: id,
       Brand: firstVariant.Brand,
@@ -88,43 +91,124 @@ function groupProductVariants(entries: ProductEntry[]): Product[] {
       "Spec Type 1": firstVariant["Spec Type 1"],
       "Spec Type 2": firstVariant["Spec Type 2"],
       basePrice: formatPrice(minPrice),
-      priceRange: minPrice === maxPrice 
+      priceRange: minPrice === maxPrice
         ? formatPrice(minPrice)
         : `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`,
       variants: variantDetails,
-      defaultVariant: variantDetails[0]
+      defaultVariant: variantDetails[0],
+      imageUrl: imageUrls.get(id) || undefined
     };
-    
+
     products.push(product);
   });
-  
+
   return products;
 }
 
-// Get all grouped products
-const products: Product[] = groupProductVariants(rawProducts);
+// Cache for grouped products
+let productsCache: Product[] | null = null;
 
-// Get all products
-export function getAllProducts(): Product[] {
-  return products;
+// Get all products from database
+export async function getAllProducts(): Promise<Product[]> {
+  if (productsCache) return productsCache;
+
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*');
+
+    if (error) {
+      console.error('Error fetching products:', error);
+      return [];
+    }
+
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    // Transform database rows to ProductEntry format
+    const productEntries: ProductEntry[] = data.map(row => ({
+      ID: row.id,
+      Brand: row.brand || '',
+      Product: row.name || '',
+      MSRP: row.msrp ? String(row.msrp) : (row.price ? String(row.price) : '0'),
+      Price: row.price ? String(row.price) : '0',
+      Category: row.category || '',
+      Badge: row.badge,
+      Description: row.description || '',
+      "Spec Type 1": row.spec_type_1,
+      "Spec 1": row.spec_1,
+      "Spec Type 2": row.spec_type_2,
+      "Spec 2": row.spec_2,
+      Color: row.color,
+      variants: row.variants || []
+    }));
+
+    // Create image URL map
+    const imageUrls = new Map<number, string>();
+    data.forEach(row => {
+      if (row.image_url) {
+        imageUrls.set(row.id, row.image_url);
+      }
+    });
+
+    productsCache = groupProductVariants(productEntries, imageUrls);
+    return productsCache;
+  } catch (error) {
+    console.error('Error in getAllProducts:', error);
+    return [];
+  }
 }
 
 // Get all raw products for admin (with individual variants and prices)
-export function getAllRawProducts(): any[] {
-  return rawProducts.map(product => ({
-    ...product,
-    Msrp: product.MSRP ? parsePrice(product.MSRP) : parsePrice(product.Price),
-    SalePrice: parsePrice(product.Price)
-  }));
+export async function getAllRawProducts(): Promise<any[]> {
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*');
+
+    if (error) {
+      console.error('Error fetching raw products:', error);
+      return [];
+    }
+
+    return (data || []).map(row => ({
+      ID: row.id,
+      Brand: row.brand || '',
+      Product: row.name || '',
+      Category: row.category || '',
+      Badge: row.badge,
+      Description: row.description || '',
+      Msrp: row.msrp || row.price || 0,
+      SalePrice: row.price || 0,
+      UPC: row.upc,
+      Inventory: row.inventory,
+      variants: row.variants || [],
+      images: row.images || [],
+      image_url: row.image_url,
+      price: row.price || 0,
+      msrp: row.msrp,
+      product: row.name,
+      name: row.name,
+      brand: row.brand,
+      category: row.category,
+      badge: row.badge
+    }));
+  } catch (error) {
+    console.error('Error in getAllRawProducts:', error);
+    return [];
+  }
 }
 
 // Get product by ID
-export function getProductById(id: number): Product | undefined {
+export async function getProductById(id: number): Promise<Product | undefined> {
+  const products = await getAllProducts();
   return products.find(p => p.ID === id);
 }
 
 // Get unique categories
-export function getCategories(): string[] {
+export async function getCategories(): Promise<string[]> {
+  const products = await getAllProducts();
   const categories = new Set<string>();
   products.forEach(p => {
     if (p.Category) categories.add(p.Category);
@@ -133,7 +217,8 @@ export function getCategories(): string[] {
 }
 
 // Get unique brands
-export function getBrands(): string[] {
+export async function getBrands(): Promise<string[]> {
+  const products = await getAllProducts();
   const brands = new Set<string>();
   products.forEach(p => {
     if (p.Brand) brands.add(p.Brand);
@@ -142,7 +227,8 @@ export function getBrands(): string[] {
 }
 
 // Get unique badges
-export function getBadges(): string[] {
+export async function getBadges(): Promise<string[]> {
+  const products = await getAllProducts();
   const badges = new Set<string>();
   products.forEach(p => {
     if (p.Badge) badges.add(p.Badge);
@@ -164,7 +250,8 @@ export function formatPrice(price: number): string {
 }
 
 // Get price range across all products
-export function getPriceRange(): [number, number] {
+export async function getPriceRange(): Promise<[number, number]> {
+  const products = await getAllProducts();
   const prices: number[] = [];
   products.forEach(p => {
     p.variants.forEach(v => {
@@ -177,7 +264,7 @@ export function getPriceRange(): [number, number] {
 // Sort products
 export function sortProducts(products: Product[], sortBy: SortOption): Product[] {
   const sorted = [...products];
-  
+
   switch (sortBy) {
     case 'name-asc':
       return sorted.sort((a, b) => a.Product.localeCompare(b.Product));
@@ -199,20 +286,21 @@ export function sortProducts(products: Product[], sortBy: SortOption): Product[]
   }
 }
 
-// Filter products
-export function filterProducts(filters: Partial<FilterOptions>): Product[] {
-  let filtered = [...products];
-  
+// Filter products (async to load products from cache/database)
+export async function filterProducts(filters: Partial<FilterOptions>): Promise<Product[]> {
+  const allProducts = await getAllProducts();
+  let filtered = [...allProducts];
+
   // Category filter
   if (filters.categories && filters.categories.length > 0) {
     filtered = filtered.filter(p => filters.categories!.includes(p.Category));
   }
-  
+
   // Brand filter
   if (filters.brands && filters.brands.length > 0) {
     filtered = filtered.filter(p => filters.brands!.includes(p.Brand));
   }
-  
+
   // Price range filter
   if (filters.priceRange) {
     const [min, max] = filters.priceRange;
@@ -223,18 +311,18 @@ export function filterProducts(filters: Partial<FilterOptions>): Product[] {
       return maxProductPrice >= min && minProductPrice <= max;
     });
   }
-  
+
   // Badge filter
   if (filters.badges && filters.badges.length > 0) {
-    filtered = filtered.filter(p => 
+    filtered = filtered.filter(p =>
       p.Badge && filters.badges!.includes(p.Badge)
     );
   }
-  
+
   // Search query
   if (filters.searchQuery && filters.searchQuery.trim() !== '') {
     const query = filters.searchQuery.toLowerCase();
-    filtered = filtered.filter(p => 
+    filtered = filtered.filter(p =>
       p.Product.toLowerCase().includes(query) ||
       p.Brand.toLowerCase().includes(query) ||
       p.Description.toLowerCase().includes(query) ||
@@ -242,20 +330,21 @@ export function filterProducts(filters: Partial<FilterOptions>): Product[] {
       p.variants.some(v => v.Product.toLowerCase().includes(query))
     );
   }
-  
+
   // Sort
   if (filters.sortBy) {
     filtered = sortProducts(filtered, filters.sortBy);
   }
-  
+
   return filtered;
 }
 
 // Get related products (same category, different product)
-export function getRelatedProducts(productId: number, limit: number = 4): Product[] {
-  const product = getProductById(productId);
+export async function getRelatedProducts(productId: number, limit: number = 4): Promise<Product[]> {
+  const products = await getAllProducts();
+  const product = products.find(p => p.ID === productId);
   if (!product) return [];
-  
+
   return products
     .filter(p => p.ID !== productId && p.Category === product.Category)
     .slice(0, limit);
@@ -286,8 +375,128 @@ export function getTotalInventory(product: Product): number {
 }
 
 // Get variant by ID
-export function getVariantById(productId: number, variantId: string): ProductVariantDetail | undefined {
-  const product = getProductById(productId);
+export async function getVariantById(productId: number, variantId: string): Promise<ProductVariantDetail | undefined> {
+  const product = await getProductById(productId);
   if (!product) return undefined;
   return product.variants.find(v => v.variantId === variantId);
+}
+
+// Get featured products (8 individual products based on badges)
+export async function getFeaturedProducts(): Promise<any[]> {
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*');
+
+    if (error) {
+      console.error('Error fetching featured products:', error);
+      return [];
+    }
+
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    // Target badges (case-insensitive)
+    const targetBadges = ['blow out', 'sale', 'instructor\'s choice', 'best seller', 'new arrival'];
+
+    // Filter products with target badges
+    const featuredProducts = data.filter(p =>
+      p.badge && targetBadges.includes(p.badge.toLowerCase())
+    );
+
+    // If we have 8 or more featured products, return first 8
+    let selectedProducts = featuredProducts.length >= 8
+      ? featuredProducts.slice(0, 8)
+      : featuredProducts;
+
+    // If we have fewer than 8, fill with random products
+    if (selectedProducts.length < 8) {
+      const remainingProducts = data.filter(p => !selectedProducts.includes(p));
+      const shuffled = remainingProducts.sort(() => Math.random() - 0.5);
+      const randomProducts = shuffled.slice(0, 8 - selectedProducts.length);
+      selectedProducts = [...selectedProducts, ...randomProducts];
+    }
+
+    // Transform to include both capitalized and lowercase fields for compatibility
+    return selectedProducts.map(row => ({
+      ID: row.id,
+      Brand: row.brand || '',
+      Product: row.name || '',
+      Category: row.category || '',
+      Badge: row.badge,
+      Description: row.description || '',
+      Msrp: row.msrp || row.price || 0,
+      SalePrice: row.price || 0,
+      image_url: row.image_url,
+      id: row.id,
+      product: row.name,
+      name: row.name,
+      brand: row.brand,
+      category: row.category,
+      badge: row.badge,
+      price: row.price || 0,
+      msrp: row.msrp
+    }));
+  } catch (error) {
+    console.error('Error in getFeaturedProducts:', error);
+    return [];
+  }
+}
+
+// Get categories from database with product counts
+export async function getCategoriesFromDB(): Promise<any[]> {
+  try {
+    // Fetch all categories
+    const { data: categories, error: categoriesError } = await supabase
+      .from('product_categories')
+      .select('*')
+      .eq('is_active', true)
+      .order('display_order', { ascending: true });
+
+    if (categoriesError) {
+      console.error('Error fetching categories:', categoriesError);
+      return [];
+    }
+
+    if (!categories || categories.length === 0) {
+      return [];
+    }
+
+    // Fetch all products to count by category
+    const { data: products, error: productsError } = await supabase
+      .from('products')
+      .select('category');
+
+    if (productsError) {
+      console.error('Error fetching products for count:', productsError);
+      return categories.map(cat => ({
+        ...cat,
+        itemCount: 0
+      }));
+    }
+
+    // Count products per category
+    const productCounts = new Map<string, number>();
+    products?.forEach(product => {
+      if (product.category) {
+        const count = productCounts.get(product.category) || 0;
+        productCounts.set(product.category, count + 1);
+      }
+    });
+
+    // Combine categories with counts
+    return categories.map(cat => ({
+      id: cat.id,
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description || '',
+      itemCount: productCounts.get(cat.name) || 0,
+      image_url: cat.image_url || null,
+      display_order: cat.display_order
+    }));
+  } catch (error) {
+    console.error('Error in getCategoriesFromDB:', error);
+    return [];
+  }
 }

@@ -103,7 +103,7 @@ const HeroVideoSimple: React.FC = () => {
         muted
         playsInline
         style={{
-          position: 'absolute',
+          position: 'fixed',
           top: 0,
           left: 0,
           width: '100%',
@@ -119,7 +119,7 @@ const HeroVideoSimple: React.FC = () => {
 
       {/* Water Effect Overlay - CSS animated waves */}
       <div className="water-effect" style={{
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
@@ -135,7 +135,7 @@ const HeroVideoSimple: React.FC = () => {
       }} />
 
       {/* Rising Bubble Particles */}
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 4 }}>
+      <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 4 }}>
         {particles.map(particle => (
           <motion.div
             key={particle.id}

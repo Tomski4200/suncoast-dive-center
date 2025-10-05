@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Search, User, Menu } from 'lucide-react';
 import styles from './Navigation.module.css';
 import { useCart } from '@/contexts/CartContext';
-import { useAuth } from '@/contexts/AuthContext';
 
 interface NavigationProps {
   isVideoMode?: boolean;
@@ -18,7 +17,6 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const { itemCount, setIsCartOpen } = useCart();
-  const { user, isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -173,24 +171,11 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
 
           {/* User Account Icon */}
           <Link 
-            href={user ? (isAdmin() ? '/admin' : '/dashboard') : '/auth'}
+            href="/auth/login"
             className={styles.iconBtn} 
             aria-label="Account"
-            style={{ position: 'relative' }}
           >
             <User size={24} />
-            {user && (
-              <span style={{
-                position: 'absolute',
-                top: '-2px',
-                right: '-2px',
-                width: '8px',
-                height: '8px',
-                background: '#8cda3f',
-                borderRadius: '50%',
-                border: '2px solid #0a1628'
-              }} />
-            )}
           </Link>
 
           {/* Cart Icon */}

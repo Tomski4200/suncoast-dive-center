@@ -19,7 +19,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, onQuickView, onAddToCart }: ProductCardProps) {
   const { addToCart } = useCart();
-  const imageUrl = getStaticProductImage(product.ID);
+  // Prioritize database image URL, fallback to static image
+  const imageUrl = product.imageUrl || getStaticProductImage(product.ID);
   const inStock = hasInventory(product);
   const hasMultipleVariants = product.variants.length > 1;
   const isOnSale = product.variants.some(v => v.MSRP !== v.Price);
@@ -216,7 +217,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart }: Produ
             textTransform: 'uppercase',
             letterSpacing: '0.05em'
           }}>
-            {product.Brand}
+            {product.Brand || 'N/A'}
           </div>
 
           {/* Product Name */}
