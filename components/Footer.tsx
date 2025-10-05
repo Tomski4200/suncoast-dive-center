@@ -164,16 +164,16 @@ const Footer: React.FC = () => {
               </h4>
               <ul className="space-y-2">
                 {[
-                  'Dive Certification',
-                  'Equipment Rental',
-                  'Tank Fills',
-                  'Equipment Service',
-                  'Group Charters',
-                  'Private Lessons'
+                  { name: 'Dive Certification', tab: 'certification' },
+                  { name: 'Equipment Rental', tab: 'gear' },
+                  { name: 'Tank Fills', tab: 'tank' },
+                  { name: 'Equipment Service', tab: 'gear' },
+                  { name: 'Group Charters', tab: 'charters' },
+                  { name: 'Private Lessons', tab: 'certification' }
                 ].map((service) => (
-                  <li key={service}>
+                  <li key={service.name}>
                     <a
-                      href={`#${service.toLowerCase().replace(' ', '-')}`}
+                      href={`/services?tab=${service.tab}`}
                       style={{
                         color: 'rgba(255, 239, 191, 0.6)',
                         fontSize: '0.875rem',
@@ -192,7 +192,7 @@ const Footer: React.FC = () => {
                       }}
                     >
                       <ChevronRight size={14} style={{ opacity: 0.5 }} />
-                      {service}
+                      {service.name}
                     </a>
                   </li>
                 ))}

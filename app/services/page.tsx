@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { GraduationCap, Anchor, Gauge, Wrench, Star, CheckCircle, Calendar, Users, Wind, Sparkles, Package, Search, Zap, Settings } from 'lucide-react';
 import Navigation from '../../components/Navigation';
@@ -49,6 +50,8 @@ type Service = {
 };
 
 export default function ServicesPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('certification');
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [services, setServices] = useState<Service[]>([]);
@@ -57,6 +60,14 @@ export default function ServicesPage() {
   useEffect(() => {
     fetchServicesData();
   }, []);
+
+  // Set active tab from URL parameter
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
 
   async function fetchServicesData() {
     try {
@@ -178,7 +189,10 @@ export default function ServicesPage() {
                 return (
                   <button
                     key={category.id}
-                    onClick={() => setActiveTab(category.slug)}
+                    onClick={() => {
+                      setActiveTab(category.slug);
+                      router.push(`/services?tab=${category.slug}`, { scroll: false });
+                    }}
                     style={{
                       padding: '0.75rem 1.5rem',
                       background: activeTab === category.slug
