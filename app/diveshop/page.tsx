@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, Filter, X, ChevronDown, ChevronUp, Grid, List,
-  SlidersHorizontal, Package, Tag
+  SlidersHorizontal, Package, Tag, CircleX, DollarSign
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -40,6 +40,8 @@ export default function ShopPage() {
   const [maxPrice, setMaxPrice] = useState(10000);
   const [tableSortColumn, setTableSortColumn] = useState<'brand' | 'name' | 'category' | 'price'>('name');
   const [tableSortDirection, setTableSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [categoriesExpanded, setCategoriesExpanded] = useState(false);
+  const [brandsExpanded, setBrandsExpanded] = useState(false);
 
   // Load initial data
   useEffect(() => {
@@ -228,8 +230,8 @@ export default function ShopPage() {
                   alignItems: 'center',
                   marginBottom: '1.5rem'
                 }}>
-                  <h3 style={{ 
-                    color: '#ffefbf', 
+                  <h3 style={{
+                    color: '#ffefbf',
                     fontSize: '1.2rem',
                     display: 'flex',
                     alignItems: 'center',
@@ -238,7 +240,7 @@ export default function ShopPage() {
                     <Filter size={20} />
                     Filters
                   </h3>
-                  {hasActiveFilters && (
+                  {hasActiveFilters ? (
                     <button
                       onClick={clearFilters}
                       style={{
@@ -253,17 +255,43 @@ export default function ShopPage() {
                     >
                       Clear All
                     </button>
+                  ) : (
+                    <button
+                      onClick={() => setShowFilters(false)}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'rgba(255, 239, 191, 0.6)',
+                        cursor: 'pointer',
+                        padding: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#8cda3f';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)';
+                      }}
+                    >
+                      <CircleX size={20} />
+                    </button>
                   )}
                 </div>
 
                 {/* Search */}
                 <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ 
-                    color: '#ffefbf', 
+                  <label style={{
+                    color: '#ffefbf',
                     fontSize: '0.875rem',
-                    display: 'block',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
                     marginBottom: '0.5rem'
                   }}>
+                    <Search size={16} />
                     Search
                   </label>
                   <div style={{ position: 'relative' }}>
@@ -294,114 +322,135 @@ export default function ShopPage() {
 
                 {/* Categories */}
                 <div style={{ marginBottom: '1.5rem' }}>
-                  <h4 style={{ 
-                    color: '#ffefbf', 
-                    fontSize: '0.875rem',
-                    marginBottom: '0.75rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}>
-                    <Package size={16} />
-                    Categories
+                  <h4
+                    onClick={() => setCategoriesExpanded(!categoriesExpanded)}
+                    style={{
+                      color: '#ffefbf',
+                      fontSize: '0.875rem',
+                      marginBottom: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                      transition: 'color 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#ffefbf'}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <Package size={16} />
+                      Categories
+                    </span>
+                    {categoriesExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                   </h4>
-                  <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                    {categories.map(category => (
-                      <div
-                        key={category}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          marginBottom: '0.5rem'
-                        }}
+                  <AnimatePresence>
+                    {categoriesExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        style={{ overflow: 'hidden' }}
                       >
-                        <label
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            cursor: 'pointer',
-                            color: 'rgba(255, 239, 191, 0.8)',
-                            flex: 1
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedCategories.includes(category)}
-                            onChange={() => toggleCategory(category)}
-                            style={{ accentColor: '#8cda3f' }}
-                          />
-                          <span style={{ fontSize: '0.875rem' }}>{category}</span>
-                        </label>
-                        <Link
-                          href={`/diveshop/category/${category.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
-                          style={{
-                            color: '#8cda3f',
-                            fontSize: '0.75rem',
-                            textDecoration: 'none',
-                            opacity: 0.8,
-                            transition: 'opacity 0.3s ease'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.opacity = '1';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.opacity = '0.8';
-                          }}
-                        >
-                          View →
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
+                        <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                          {categories.map(category => (
+                            <label
+                              key={category}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                cursor: 'pointer',
+                                color: 'rgba(255, 239, 191, 0.8)',
+                                marginBottom: '0.5rem'
+                              }}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={selectedCategories.includes(category)}
+                                onChange={() => toggleCategory(category)}
+                                style={{ accentColor: '#8cda3f' }}
+                              />
+                              <span style={{ fontSize: '0.875rem' }}>{category}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Brands */}
                 <div style={{ marginBottom: '1.5rem' }}>
-                  <h4 style={{ 
-                    color: '#ffefbf', 
+                  <h4
+                    onClick={() => setBrandsExpanded(!brandsExpanded)}
+                    style={{
+                      color: '#ffefbf',
+                      fontSize: '0.875rem',
+                      marginBottom: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                      transition: 'color 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#ffefbf'}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <Tag size={16} />
+                      Brands
+                    </span>
+                    {brandsExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </h4>
+                  <AnimatePresence>
+                    {brandsExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        style={{ overflow: 'hidden' }}
+                      >
+                        <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                          {brands.map(brand => (
+                            <label
+                              key={brand}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                marginBottom: '0.5rem',
+                                cursor: 'pointer',
+                                color: 'rgba(255, 239, 191, 0.8)'
+                              }}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={selectedBrands.includes(brand)}
+                                onChange={() => toggleBrand(brand)}
+                                style={{ accentColor: '#8cda3f' }}
+                              />
+                              <span style={{ fontSize: '0.875rem' }}>{brand}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Price Range */}
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <h4 style={{
+                    color: '#ffefbf',
                     fontSize: '0.875rem',
                     marginBottom: '0.75rem',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem'
                   }}>
-                    <Tag size={16} />
-                    Brands
-                  </h4>
-                  <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                    {brands.map(brand => (
-                      <label
-                        key={brand}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          marginBottom: '0.5rem',
-                          cursor: 'pointer',
-                          color: 'rgba(255, 239, 191, 0.8)'
-                        }}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedBrands.includes(brand)}
-                          onChange={() => toggleBrand(brand)}
-                          style={{ accentColor: '#8cda3f' }}
-                        />
-                        <span style={{ fontSize: '0.875rem' }}>{brand}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Price Range */}
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <h4 style={{ 
-                    color: '#ffefbf', 
-                    fontSize: '0.875rem',
-                    marginBottom: '0.75rem'
-                  }}>
+                    <DollarSign size={16} />
                     Price Range
                   </h4>
                   
@@ -583,7 +632,8 @@ export default function ShopPage() {
                     borderRadius: '8px',
                     padding: '8px 12px',
                     color: '#ffefbf',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    fontSize: '0.875rem'
                   }}
                 >
                   <option value="newest">Newest First</option>
@@ -707,17 +757,29 @@ export default function ShopPage() {
                     background: 'rgba(30, 58, 95, 0.5)',
                     borderBottom: '2px solid rgba(140, 218, 63, 0.3)'
                   }}>
-                    <th style={{
-                      padding: '1rem',
-                      textAlign: 'left',
-                      color: '#ffefbf',
-                      fontWeight: 600,
-                      fontSize: '0.875rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                      width: '80px'
-                    }}>
-                      Image
+                    <th
+                      onClick={() => handleTableSort('category')}
+                      style={{
+                        padding: '1rem',
+                        textAlign: 'left',
+                        color: '#ffefbf',
+                        fontWeight: 600,
+                        fontSize: '0.875rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        transition: 'color 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#ffefbf'}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        Category
+                        {tableSortColumn === 'category' && (
+                          tableSortDirection === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+                        )}
+                      </div>
                     </th>
                     <th
                       onClick={() => handleTableSort('brand')}
@@ -767,29 +829,17 @@ export default function ShopPage() {
                         )}
                       </div>
                     </th>
-                    <th
-                      onClick={() => handleTableSort('category')}
-                      style={{
-                        padding: '1rem',
-                        textAlign: 'left',
-                        color: '#ffefbf',
-                        fontWeight: 600,
-                        fontSize: '0.875rem',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                        cursor: 'pointer',
-                        userSelect: 'none',
-                        transition: 'color 0.3s ease'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = '#ffefbf'}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        Category
-                        {tableSortColumn === 'category' && (
-                          tableSortDirection === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />
-                        )}
-                      </div>
+                    <th style={{
+                      padding: '1rem',
+                      textAlign: 'left',
+                      color: '#ffefbf',
+                      fontWeight: 600,
+                      fontSize: '0.875rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      width: '80px'
+                    }}>
+                      Image
                     </th>
                     <th
                       onClick={() => handleTableSort('price')}
@@ -831,42 +881,17 @@ export default function ShopPage() {
                       onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                       onClick={() => window.location.href = `/diveshop/${product.ID}`}
                     >
-                      <td style={{ padding: '1rem' }}>
-                        <div style={{
-                          width: '60px',
-                          height: '60px',
-                          position: 'relative',
-                          borderRadius: '8px',
-                          overflow: 'hidden',
-                          background: 'rgba(10, 22, 40, 0.5)',
-                          border: '1px solid rgba(255, 239, 191, 0.1)'
-                        }}>
-                          {product.imageUrl ? (
-                            <Image
-                              src={product.imageUrl}
-                              alt={product.Product}
-                              fill
-                              style={{ objectFit: 'cover' }}
-                            />
-                          ) : (
-                            <div style={{
-                              width: '100%',
-                              height: '100%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'rgba(255, 239, 191, 0.3)',
-                              fontSize: '0.75rem'
-                            }}>
-                              No Image
-                            </div>
-                          )}
-                        </div>
+                      <td style={{
+                        padding: '1rem',
+                        color: 'rgba(255, 239, 191, 0.7)',
+                        fontSize: '0.875rem'
+                      }}>
+                        {product.Category || 'N/A'}
                       </td>
                       <td style={{
                         padding: '1rem',
                         color: 'rgba(255, 239, 191, 0.8)',
-                        fontSize: '0.875rem'
+                        fontWeight: 500
                       }}>
                         {product.Brand || 'N/A'}
                       </td>
@@ -890,12 +915,37 @@ export default function ShopPage() {
                           </span>
                         )}
                       </td>
-                      <td style={{
-                        padding: '1rem',
-                        color: 'rgba(255, 239, 191, 0.7)',
-                        fontSize: '0.875rem'
-                      }}>
-                        {product.Category || 'N/A'}
+                      <td style={{ padding: '1rem' }}>
+                        <div style={{
+                          width: '60px',
+                          height: '60px',
+                          position: 'relative',
+                          borderRadius: '8px',
+                          overflow: 'hidden',
+                          background: 'white',
+                          border: '1px solid rgba(255, 239, 191, 0.1)'
+                        }}>
+                          {product.imageUrl ? (
+                            <Image
+                              src={product.imageUrl}
+                              alt={product.Product}
+                              fill
+                              style={{ objectFit: 'cover' }}
+                            />
+                          ) : (
+                            <div style={{
+                              width: '100%',
+                              height: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'rgba(255, 239, 191, 0.3)',
+                              fontSize: '0.75rem'
+                            }}>
+                              No Image
+                            </div>
+                          )}
+                        </div>
                       </td>
                       <td style={{
                         padding: '1rem',
