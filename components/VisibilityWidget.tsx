@@ -203,34 +203,34 @@ const VisibilityWidget: React.FC = () => {
             <div className="flex flex-col items-center justify-center">
               <div style={{
                 position: 'relative',
-                width: '200px',
-                height: '200px',
+                width: '250px',
+                height: '250px',
                 margin: '0 auto'
               }}>
                 {/* Circular Progress */}
                 <svg
-                  width="200"
-                  height="200"
+                  width="250"
+                  height="250"
                   style={{ transform: 'rotate(-90deg)' }}
                 >
                   {/* Background Circle */}
                   <circle
-                    cx="100"
-                    cy="100"
-                    r="90"
+                    cx="125"
+                    cy="125"
+                    r="112.5"
                     stroke="rgba(255, 239, 191, 0.1)"
                     strokeWidth="20"
                     fill="none"
                   />
                   {/* Progress Circle */}
                   <circle
-                    cx="100"
-                    cy="100"
-                    r="90"
+                    cx="125"
+                    cy="125"
+                    r="112.5"
                     stroke={getVisibilityColor(conditions[selectedLocation].visibility)}
                     strokeWidth="20"
                     fill="none"
-                    strokeDasharray={`${(conditions[selectedLocation].visibility / 100) * 565.48} 565.48`}
+                    strokeDasharray={`${(conditions[selectedLocation].visibility / 100) * 706.85} 706.85`}
                     strokeLinecap="round"
                     style={{
                       filter: `drop-shadow(0 0 20px ${getVisibilityColor(conditions[selectedLocation].visibility)})`,
