@@ -283,17 +283,6 @@ export default function ShopPage() {
 
                 {/* Search */}
                 <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{
-                    color: '#ffefbf',
-                    fontSize: '0.875rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    marginBottom: '0.5rem'
-                  }}>
-                    <Search size={16} />
-                    Search
-                  </label>
                   <div style={{ position: 'relative' }}>
                     <Search size={18} style={{
                       position: 'absolute',
