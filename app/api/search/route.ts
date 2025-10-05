@@ -8,6 +8,13 @@ const supabase = createClient(
 
 export const dynamic = 'force-dynamic';
 
+interface SearchResult {
+  title: string;
+  url: string;
+  description: string;
+  category: 'products' | 'blog' | 'pages' | 'categories';
+}
+
 // Static pages metadata for search
 const staticPages = [
   {
@@ -69,7 +76,7 @@ export async function GET(request: Request) {
       return NextResponse.json([]);
     }
 
-    const results = [];
+    const results: SearchResult[] = [];
 
     // Search Products (limit 5)
     const { data: products, error: productsError } = await supabase
