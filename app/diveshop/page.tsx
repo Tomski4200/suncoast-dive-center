@@ -496,40 +496,60 @@ export default function ShopPage() {
 
                   {/* Number Inputs */}
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <input
-                      type="number"
-                      value={Math.round(priceRange[0])}
-                      onChange={(e) => setPriceRange([Math.round(Number(e.target.value)), priceRange[1]])}
-                      min={Math.floor(minPrice)}
-                      max={Math.ceil(priceRange[1])}
-                      step="1"
-                      style={{
-                        width: '50%',
-                        padding: '6px',
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(255, 239, 191, 0.2)',
-                        borderRadius: '4px',
-                        color: '#ffefbf',
-                        fontSize: '0.875rem'
-                      }}
-                    />
-                    <input
-                      type="number"
-                      value={Math.round(priceRange[1])}
-                      onChange={(e) => setPriceRange([priceRange[0], Math.round(Number(e.target.value))])}
-                      min={Math.floor(priceRange[0])}
-                      max={Math.ceil(maxPrice)}
-                      step="1"
-                      style={{
-                        width: '50%',
-                        padding: '6px',
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(255, 239, 191, 0.2)',
-                        borderRadius: '4px',
-                        color: '#ffefbf',
-                        fontSize: '0.875rem'
-                      }}
-                    />
+                    <div style={{ position: 'relative', width: '50%' }}>
+                      <DollarSign size={16} style={{
+                        position: 'absolute',
+                        left: '6px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: 'rgba(255, 239, 191, 0.5)'
+                      }} />
+                      <input
+                        type="number"
+                        value={Math.round(priceRange[0])}
+                        onChange={(e) => setPriceRange([Math.round(Number(e.target.value)), priceRange[1]])}
+                        min={Math.floor(minPrice)}
+                        max={Math.ceil(priceRange[1])}
+                        step="1"
+                        style={{
+                          width: '100%',
+                          padding: '6px 6px 6px 28px',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 239, 191, 0.2)',
+                          borderRadius: '4px',
+                          color: '#ffefbf',
+                          fontSize: '0.875rem',
+                          textAlign: 'right'
+                        }}
+                      />
+                    </div>
+                    <div style={{ position: 'relative', width: '50%' }}>
+                      <DollarSign size={16} style={{
+                        position: 'absolute',
+                        left: '6px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: 'rgba(255, 239, 191, 0.5)'
+                      }} />
+                      <input
+                        type="number"
+                        value={Math.round(priceRange[1])}
+                        onChange={(e) => setPriceRange([priceRange[0], Math.round(Number(e.target.value))])}
+                        min={Math.floor(priceRange[0])}
+                        max={Math.ceil(maxPrice)}
+                        step="1"
+                        style={{
+                          width: '100%',
+                          padding: '6px 6px 6px 28px',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 239, 191, 0.2)',
+                          borderRadius: '4px',
+                          color: '#ffefbf',
+                          fontSize: '0.875rem',
+                          textAlign: 'right'
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
 
