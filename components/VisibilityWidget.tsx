@@ -208,8 +208,10 @@ const VisibilityWidget: React.FC = () => {
                 margin: '0 auto',
                 borderRadius: '50%',
                 padding: '40px',
-                background: 'rgba(255, 239, 191, 0.03)',
-                border: '1px solid rgba(255, 239, 191, 0.1)'
+                border: '1px solid rgba(255, 239, 191, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}>
                 {/* Circular Progress */}
                 <svg
