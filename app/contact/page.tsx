@@ -277,7 +277,7 @@ const ContactPage: React.FC = () => {
                       >
                         <option value="">Select a subject</option>
                         <option value="general">General Inquiry</option>
-                        <option value="courses">PADI Courses</option>
+                        <option value="courses">Dive Courses</option>
                         <option value="charters">Charter Bookings</option>
                         <option value="equipment">Equipment & Service</option>
                         <option value="other">Other</option>

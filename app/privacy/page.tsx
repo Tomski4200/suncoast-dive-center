@@ -268,7 +268,7 @@ export default function PrivacyPolicy() {
                   lineHeight: 1.8,
                   paddingLeft: '1.5rem'
                 }}>
-                  <li>With dive certification agencies (PADI, SSI, etc.) for certification verification</li>
+                  <li>With dive certification agencies (SSI, etc.) for certification verification</li>
                   <li>With charter boat operators when you book dive trips through us</li>
                   <li>With emergency services in case of diving incidents</li>
                   <li>With legal authorities when required by law</li>

@@ -19,8 +19,8 @@ const staticPages = [
   {
     title: 'Services',
     url: '/services',
-    description: 'Dive courses, PADI certifications, equipment rental, tank fills, and equipment service',
-    keywords: ['services', 'courses', 'padi', 'certification', 'equipment', 'rental', 'tank fills']
+    description: 'Dive courses, certifications, equipment rental, tank fills, and equipment service',
+    keywords: ['services', 'courses', 'certification', 'equipment', 'rental', 'tank fills']
   },
   {
     title: 'Visibility Reports',

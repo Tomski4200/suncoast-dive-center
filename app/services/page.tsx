@@ -225,7 +225,7 @@ export default function ServicesPage() {
                       color: '#ffefbf',
                       marginBottom: '0.5rem'
                     }}>
-                      PADI Certification Courses
+                      Certification Courses
                     </h2>
                     <p style={{
                       color: 'rgba(255, 239, 191, 0.7)',

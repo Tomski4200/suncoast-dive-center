@@ -109,17 +109,25 @@ const Footer: React.FC = () => {
                 Quick Links
               </h4>
               <ul className="space-y-2">
-                {['About Us', 'Courses', 'Pro Shop', 'Charters', 'Gallery', 'Contact'].map((link) => (
-                  <li key={link}>
-                    <a
-                      href={`#${link.toLowerCase().replace(' ', '-')}`}
+                {[
+                  { name: 'About Us', href: '#about-us' },
+                  { name: 'Courses', href: '#courses' },
+                  { name: 'Pro Shop', href: '/diveshop' },
+                  { name: 'Charters', href: '#charters' },
+                  { name: 'Gallery', href: '#gallery' },
+                  { name: 'Legal', href: '/legal' }
+                ].map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
                       style={{
                         color: 'rgba(255, 239, 191, 0.6)',
                         fontSize: '0.875rem',
                         transition: 'all 0.3s ease',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '0.25rem'
+                        gap: '0.25rem',
+                        textDecoration: 'none'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.color = '#8cda3f';
@@ -131,8 +139,8 @@ const Footer: React.FC = () => {
                       }}
                     >
                       <ChevronRight size={14} style={{ opacity: 0.5 }} />
-                      {link}
-                    </a>
+                      {link.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -156,7 +164,7 @@ const Footer: React.FC = () => {
               </h4>
               <ul className="space-y-2">
                 {[
-                  'PADI Certification',
+                  'Dive Certification',
                   'Equipment Rental',
                   'Tank Fills',
                   'Equipment Service',

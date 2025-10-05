@@ -128,7 +128,7 @@ export default function TermsOfService() {
                   lineHeight: 1.8,
                   paddingLeft: '1.5rem'
                 }}>
-                  <li>All divers must present valid certification from a recognized agency (PADI, SSI, NAUI, etc.)</li>
+                  <li>All divers must present valid certification from a recognized agency (SSI, NAUI, etc.)</li>
                   <li>Certification level must match the planned dive activities</li>
                   <li>Divers may be required to demonstrate skills before participating in advanced dives</li>
                   <li>Uncertified individuals may only participate in Discover Scuba or training programs</li>
