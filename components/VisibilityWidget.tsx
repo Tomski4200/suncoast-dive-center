@@ -203,9 +203,13 @@ const VisibilityWidget: React.FC = () => {
             <div className="flex flex-col items-center justify-center">
               <div style={{
                 position: 'relative',
-                width: '250px',
-                height: '250px',
-                margin: '0 auto'
+                width: '330px',
+                height: '330px',
+                margin: '0 auto',
+                borderRadius: '50%',
+                padding: '40px',
+                background: 'rgba(255, 239, 191, 0.03)',
+                border: '1px solid rgba(255, 239, 191, 0.1)'
               }}>
                 {/* Circular Progress */}
                 <svg
