@@ -442,16 +442,6 @@ export default function ShopPage() {
                     <DollarSign size={16} />
                     Price Range
                   </h4>
-                  
-                  {/* Price Display */}
-                  <div style={{ 
-                    fontSize: '1rem', 
-                    color: '#ffefbf',
-                    marginBottom: '0.75rem',
-                    textAlign: 'center'
-                  }}>
-                    ${Math.round(priceRange[0])} - ${Math.round(priceRange[1])}
-                  </div>
 
                   {/* Range Slider */}
                   <div style={{ marginBottom: '0.75rem' }}>
