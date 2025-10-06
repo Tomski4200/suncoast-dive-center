@@ -8,29 +8,30 @@ const HeroVideoSimple: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  /* BUBBLE ANIMATION - DISABLED BUT SAVED FOR POTENTIAL FUTURE USE
   // Initialize bubble particles
   const [particles, setParticles] = useState<Array<{
-    id: number, 
-    x: number, 
-    y: number, 
+    id: number,
+    x: number,
+    y: number,
     size: number,
-    duration: number, 
+    duration: number,
     delay: number,
     cluster: number,
     offsetX: number,
     waveAmplitude: number,
     driftAngle: number
   }>>([]);
-  
+
   useEffect(() => {
     const particleArray = [];
     const clusterCount = 8; // Number of bubble clusters/strings
     const bubblesPerCluster = 8; // Bubbles in each cluster
-    
+
     let id = 0;
     for (let c = 0; c < clusterCount; c++) {
       const clusterX = 10 + Math.random() * 80; // Cluster base X position
-      
+
       for (let b = 0; b < bubblesPerCluster; b++) {
         // Size distribution: 70% tiny, 20% small, 10% medium
         let size;
@@ -42,7 +43,7 @@ const HeroVideoSimple: React.FC = () => {
         } else {
           size = 35 + Math.random() * 25; // Medium bubbles (35-60px)
         }
-        
+
         particleArray.push({
           id: id++,
           x: clusterX,
@@ -57,7 +58,7 @@ const HeroVideoSimple: React.FC = () => {
         });
       }
     }
-    
+
     // Add some solo bubbles
     for (let i = 0; i < 15; i++) {
       let size;
@@ -67,7 +68,7 @@ const HeroVideoSimple: React.FC = () => {
       } else {
         size = 16 + Math.random() * 20; // Some larger
       }
-      
+
       particleArray.push({
         id: id++,
         x: Math.random() * 100,
@@ -81,9 +82,10 @@ const HeroVideoSimple: React.FC = () => {
         driftAngle: 20 + Math.random() * 25 // 20-45 degrees
       });
     }
-    
+
     setParticles(particleArray);
   }, []);
+  END OF BUBBLE ANIMATION CODE */
 
   return (
     <div className="hero-video-container" ref={containerRef} style={{ 
@@ -134,7 +136,7 @@ const HeroVideoSimple: React.FC = () => {
         pointerEvents: 'none'
       }} />
 
-      {/* Rising Bubble Particles */}
+      {/* BUBBLE RENDERING - DISABLED
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 4 }}>
         {particles.map(particle => (
           <motion.div
@@ -146,28 +148,25 @@ const HeroVideoSimple: React.FC = () => {
               background: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="bubble${particle.id}"><stop offset="0%" stop-color="rgba(255,255,255,0.4)"/><stop offset="30%" stop-color="rgba(255,255,255,0.2)"/><stop offset="60%" stop-color="rgba(200,230,255,0.1)"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><circle cx="50" cy="50" r="46" fill="url(%23bubble${particle.id})" stroke="rgba(255,255,255,0.3)" stroke-width="2"/><ellipse cx="35" cy="30" rx="${10 * (particle.size / 60)}" ry="${6 * (particle.size / 60)}" fill="rgba(255,255,255,0.5)" transform="rotate(-25 35 30)"/></svg>')`,
               backgroundSize: '100% 100%',
               mixBlendMode: 'screen',
-              opacity: particle.size < 20 ? 0.5 : 0.7, // Smaller bubbles are more transparent
+              opacity: particle.size < 20 ? 0.5 : 0.7,
             }}
             initial={{
               x: `calc(${particle.x}vw + ${particle.offsetX}px)`,
               y: `${particle.y}vh`,
             }}
             animate={{
-              y: '-10vh', // Float upward
+              y: '-10vh',
               x: (() => {
-                // Generate a wavy path based on particle's unique properties
                 const points = [];
                 const steps = 10;
-                const totalDrift = particle.driftAngle; // Total left drift in vw units
-                
+                const totalDrift = particle.driftAngle;
+
                 for (let i = 0; i <= steps; i++) {
                   const progress = i / steps;
-                  // Base diagonal movement to the left
                   const baseX = particle.x - (totalDrift * progress);
-                  // Add wave oscillation
-                  const waveOffset = Math.sin(progress * Math.PI * 3) * particle.waveAmplitude * 
-                                    (1 - progress * 0.3); // Wave amplitude decreases as bubble rises
-                  
+                  const waveOffset = Math.sin(progress * Math.PI * 3) * particle.waveAmplitude *
+                                    (1 - progress * 0.3);
+
                   points.push(`calc(${baseX}vw + ${particle.offsetX + waveOffset}px)`);
                 }
                 return points;
@@ -181,15 +180,16 @@ const HeroVideoSimple: React.FC = () => {
                 delay: particle.delay,
               },
               x: {
-                duration: particle.duration, // Same duration as Y for consistent diagonal movement
+                duration: particle.duration,
                 repeat: Infinity,
-                ease: 'linear', // Linear for smooth diagonal, the waypoints create the wave
+                ease: 'linear',
                 delay: particle.delay,
               },
             }}
           />
         ))}
       </div>
+      */}
 
       {/* Hero Content */}
       <div style={{ 
