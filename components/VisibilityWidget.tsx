@@ -207,7 +207,7 @@ const VisibilityWidget: React.FC = () => {
                 height: '330px',
                 margin: '0 auto',
                 borderRadius: '50%',
-                padding: '60px',
+                padding: '40px',
                 border: '1px solid rgba(255, 239, 191, 0.1)',
                 display: 'flex',
                 alignItems: 'center',
@@ -215,28 +215,28 @@ const VisibilityWidget: React.FC = () => {
               }}>
                 {/* Circular Progress */}
                 <svg
-                  width="210"
-                  height="210"
+                  width="250"
+                  height="250"
                   style={{ transform: 'rotate(-90deg)' }}
                 >
                   {/* Background Circle */}
                   <circle
-                    cx="105"
-                    cy="105"
-                    r="95"
+                    cx="125"
+                    cy="125"
+                    r="112.5"
                     stroke="rgba(255, 239, 191, 0.1)"
                     strokeWidth="20"
                     fill="none"
                   />
                   {/* Progress Circle */}
                   <circle
-                    cx="105"
-                    cy="105"
-                    r="95"
+                    cx="125"
+                    cy="125"
+                    r="112.5"
                     stroke={getVisibilityColor(conditions[selectedLocation].visibility)}
                     strokeWidth="20"
                     fill="none"
-                    strokeDasharray={`${(conditions[selectedLocation].visibility / 100) * 596.90} 596.90`}
+                    strokeDasharray={`${(conditions[selectedLocation].visibility / 100) * 706.85} 706.85`}
                     strokeLinecap="round"
                     style={{
                       transition: 'all 0.5s ease'
