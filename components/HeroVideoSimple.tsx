@@ -119,7 +119,7 @@ const HeroVideoSimple: React.FC = () => {
         Your browser does not support the video tag.
       </video>
 
-      {/* Water Effect Overlay - CSS animated waves */}
+      {/* Water Effect Overlay - CSS animated waves - DISABLED
       <div className="water-effect" style={{
         position: 'fixed',
         top: 0,
@@ -134,7 +134,7 @@ const HeroVideoSimple: React.FC = () => {
         `,
         animation: 'waterWave 8s ease-in-out infinite',
         pointerEvents: 'none'
-      }} />
+      }} /> */}
 
       {/* BUBBLE RENDERING - DISABLED
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 4 }}>
@@ -194,6 +194,7 @@ const HeroVideoSimple: React.FC = () => {
       {/* Hero Content */}
       <div style={{ 
         position: 'relative', 
+        top: '-64px',
         zIndex: 10, 
         textAlign: 'center',
         display: 'flex',
@@ -232,7 +233,7 @@ const HeroVideoSimple: React.FC = () => {
               fontFamily: 'Montserrat, sans-serif',
               fontWeight: 300,
               fontSize: 'clamp(1.8rem, 4.8vw, 3.6rem)',
-              letterSpacing: '0.27em',
+              letterSpacing: '0.3em',
               marginTop: '-0.08em',
               transform: 'scaleX(0.96)',
               transformOrigin: 'center',

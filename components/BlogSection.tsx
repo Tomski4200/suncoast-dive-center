@@ -1,53 +1,90 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 interface BlogPost {
   id: number;
   title: string;
+  slug: string;
   excerpt: string;
   author: string;
   date: string;
   readTime: string;
-  image: string;
+  image: string | null;
   category: string;
 }
 
+const placeholderPosts: BlogPost[] = [
+  {
+    id: 1,
+    title: 'Top 5 Dive Sites in Crystal River',
+    slug: 'top-5-dive-sites-crystal-river',
+    excerpt: 'Discover the most breathtaking underwater locations Crystal River has to offer, from manatee encounters to pristine springs.',
+    author: 'Mike Johnson',
+    date: 'Dec 15, 2024',
+    readTime: '5 min read',
+    image: null,
+    category: 'Destinations'
+  },
+  {
+    id: 2,
+    title: 'Essential Gear for Night Diving',
+    slug: 'essential-gear-night-diving',
+    excerpt: 'Everything you need to know about equipment selection and safety considerations for your next night dive adventure.',
+    author: 'Sarah Chen',
+    date: 'Dec 12, 2024',
+    readTime: '8 min read',
+    image: null,
+    category: 'Equipment'
+  },
+  {
+    id: 3,
+    title: 'Underwater Photography Tips',
+    slug: 'underwater-photography-tips',
+    excerpt: 'Master the art of capturing stunning underwater images with these pro techniques and camera settings.',
+    author: 'Tom Williams',
+    date: 'Dec 10, 2024',
+    readTime: '6 min read',
+    image: null,
+    category: 'Photography'
+  }
+];
+
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+};
+
 const BlogSection: React.FC = () => {
-  const blogPosts: BlogPost[] = [
-    {
-      id: 1,
-      title: 'Top 5 Dive Sites in Crystal River',
-      excerpt: 'Discover the most breathtaking underwater locations Crystal River has to offer, from manatee encounters to pristine springs.',
-      author: 'Mike Johnson',
-      date: 'Dec 15, 2024',
-      readTime: '5 min read',
-      image: '/api/placeholder/400/250',
-      category: 'Destinations'
-    },
-    {
-      id: 2,
-      title: 'Essential Gear for Night Diving',
-      excerpt: 'Everything you need to know about equipment selection and safety considerations for your next night dive adventure.',
-      author: 'Sarah Chen',
-      date: 'Dec 12, 2024',
-      readTime: '8 min read',
-      image: '/api/placeholder/400/250',
-      category: 'Equipment'
-    },
-    {
-      id: 3,
-      title: 'Underwater Photography Tips',
-      excerpt: 'Master the art of capturing stunning underwater images with these pro techniques and camera settings.',
-      author: 'Tom Williams',
-      date: 'Dec 10, 2024',
-      readTime: '6 min read',
-      image: '/api/placeholder/400/250',
-      category: 'Photography'
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(placeholderPosts);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBlogPosts() {
+      try {
+        const response = await fetch('/api/blog-posts?limit=3');
+        if (response.ok) {
+          const data: BlogPost[] = await response.json();
+          // Format dates
+          const formattedPosts = data.map(post => ({
+            ...post,
+            date: formatDate(post.date)
+          }));
+          setBlogPosts(formattedPosts);
+        }
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+        // Keep placeholder posts on error
+      } finally {
+        setLoading(false);
+      }
     }
-  ];
+
+    fetchBlogPosts();
+  }, []);
 
   return (
     <section className="relative py-20 px-4 overflow-hidden">
@@ -97,7 +134,7 @@ const BlogSection: React.FC = () => {
         {/* Blog Grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {blogPosts.map((post, index) => (
-            <Link href="/blog" key={post.id} style={{ textDecoration: 'none' }}>
+            <Link href={`/blog/${post.slug}`} key={post.id} style={{ textDecoration: 'none' }}>
               <motion.article
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

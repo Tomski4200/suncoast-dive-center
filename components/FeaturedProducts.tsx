@@ -184,7 +184,7 @@ const FeaturedProducts: React.FC = () => {
                       height={300}
                       className={styles.productImage}
                     />
-                    
+
                     {/* Quick View Overlay */}
                     <AnimatePresence>
                       {hoveredProduct === product.id && (
@@ -205,7 +205,9 @@ const FeaturedProducts: React.FC = () => {
                   {/* Product Info */}
                   <div className={styles.productInfo}>
                     <span className={styles.category}>{product.category}</span>
-                    <h3 className={styles.productName}>{product.name}</h3>
+                    <h3 className={styles.productName}>
+                      {product.name.length > 20 ? product.name.slice(0, 20) + '...' : product.name}
+                    </h3>
 
                     {/* Price */}
                     <div className={styles.priceWrapper}>

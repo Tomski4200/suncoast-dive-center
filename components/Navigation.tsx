@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Search, User, Menu } from 'lucide-react';
 import styles from './Navigation.module.css';
 import { useCart } from '@/contexts/CartContext';
+import SearchModal from './SearchModal';
 
 interface NavigationProps {
   isVideoMode?: boolean;
@@ -16,6 +17,7 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { itemCount, setIsCartOpen } = useCart();
 
   useEffect(() => {
@@ -25,6 +27,19 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Keyboard shortcut for search (Cmd/Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const menuItems = [
@@ -165,7 +180,11 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
         {/* Right Section */}
         <div className={styles.navRight}>
           {/* Search Icon */}
-          <button className={styles.iconBtn} aria-label="Search">
+          <button
+            className={styles.iconBtn}
+            aria-label="Search"
+            onClick={() => setIsSearchOpen(true)}
+          >
             <Search size={24} />
           </button>
 
@@ -231,6 +250,9 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </nav>
   );
 };

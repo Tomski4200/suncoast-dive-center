@@ -82,7 +82,7 @@
 .productCard {
   position: relative;
   flex: 0 0 calc(25% - 1.125rem);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   overflow: hidden;
   backdrop-filter: blur(10px);

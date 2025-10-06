@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Navigation from '@/components/Navigation';
+import PromotionBanner from '@/components/PromotionBanner';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import CategoryGrid from '@/components/CategoryGrid';
 import VisibilityWidget from '@/components/VisibilityWidget';
@@ -27,6 +28,7 @@ export default function HomePage() {
 
   return (
     <main>
+      <PromotionBanner />
       <Navigation isVideoMode={isVideoMode} setIsVideoMode={setIsVideoMode} />
 
       {/* Hero Section with Animation */}
