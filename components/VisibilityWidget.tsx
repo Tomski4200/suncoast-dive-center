@@ -239,7 +239,6 @@ const VisibilityWidget: React.FC = () => {
                     strokeDasharray={`${(conditions[selectedLocation].visibility / 100) * 596.90} 596.90`}
                     strokeLinecap="round"
                     style={{
-                      filter: `drop-shadow(0 0 20px ${getVisibilityColor(conditions[selectedLocation].visibility)})`,
                       transition: 'all 0.5s ease'
                     }}
                   />
@@ -257,8 +256,7 @@ const VisibilityWidget: React.FC = () => {
                     fontSize: '3rem',
                     fontWeight: 'bold',
                     color: getVisibilityColor(conditions[selectedLocation].visibility),
-                    lineHeight: 1,
-                    filter: `drop-shadow(0 0 10px ${getVisibilityColor(conditions[selectedLocation].visibility)})`
+                    lineHeight: 1
                   }}>
                     {conditions[selectedLocation].visibility}%
                   </div>
