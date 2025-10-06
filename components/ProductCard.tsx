@@ -66,7 +66,8 @@ export default function ProductCard({ product, onQuickView, onAddToCart }: Produ
         border: '1px solid rgba(255, 239, 191, 0.1)',
         transition: 'all 0.3s ease',
         cursor: 'pointer',
-        position: 'relative'
+        position: 'relative',
+        zIndex: 5
       }}
     >
       <Link href={`/diveshop/${product.ID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
