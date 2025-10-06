@@ -60,7 +60,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart }: Produ
       transition={{ duration: 0.4 }}
       whileHover={{ y: -5 }}
       style={{
-        background: 'rgba(255, 255, 255, 0.05)',
+        background: 'rgba(255, 255, 255, 1)',
         borderRadius: '12px',
         overflow: 'hidden',
         border: '1px solid rgba(255, 239, 191, 0.1)',
