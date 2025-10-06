@@ -443,49 +443,8 @@ export default function ShopPage() {
                     Price Range
                   </h4>
 
-                  {/* Range Slider */}
-                  <div style={{ marginBottom: '0.75rem' }}>
-                    <input
-                      type="range"
-                      min={Math.floor(minPrice)}
-                      max={Math.ceil(maxPrice)}
-                      value={priceRange[0]}
-                      onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
-                      style={{
-                        width: '100%',
-                        height: '6px',
-                        background: `linear-gradient(to right, 
-                          rgba(255, 239, 191, 0.1) 0%, 
-                          #8cda3f ${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%, 
-                          #8cda3f ${((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%, 
-                          rgba(255, 239, 191, 0.1) 100%)`,
-                        borderRadius: '3px',
-                        outline: 'none',
-                        cursor: 'pointer',
-                        accentColor: '#8cda3f'
-                      }}
-                    />
-                    <input
-                      type="range"
-                      min={Math.floor(minPrice)}
-                      max={Math.ceil(maxPrice)}
-                      value={priceRange[1]}
-                      onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
-                      style={{
-                        width: '100%',
-                        height: '6px',
-                        background: 'transparent',
-                        outline: 'none',
-                        cursor: 'pointer',
-                        marginTop: '-6px',
-                        position: 'relative',
-                        accentColor: '#8cda3f'
-                      }}
-                    />
-                  </div>
-
                   {/* Number Inputs */}
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
                     <div style={{ position: 'relative', width: '50%' }}>
                       <DollarSign size={16} style={{
                         position: 'absolute',
@@ -540,6 +499,47 @@ export default function ShopPage() {
                         }}
                       />
                     </div>
+                  </div>
+
+                  {/* Range Slider */}
+                  <div style={{ marginBottom: '0.75rem' }}>
+                    <input
+                      type="range"
+                      min={Math.floor(minPrice)}
+                      max={Math.ceil(maxPrice)}
+                      value={priceRange[0]}
+                      onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
+                      style={{
+                        width: '100%',
+                        height: '6px',
+                        background: `linear-gradient(to right,
+                          rgba(255, 239, 191, 0.1) 0%,
+                          #8cda3f ${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%,
+                          #8cda3f ${((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%,
+                          rgba(255, 239, 191, 0.1) 100%)`,
+                        borderRadius: '3px',
+                        outline: 'none',
+                        cursor: 'pointer',
+                        accentColor: '#8cda3f'
+                      }}
+                    />
+                    <input
+                      type="range"
+                      min={Math.floor(minPrice)}
+                      max={Math.ceil(maxPrice)}
+                      value={priceRange[1]}
+                      onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                      style={{
+                        width: '100%',
+                        height: '6px',
+                        background: 'transparent',
+                        outline: 'none',
+                        cursor: 'pointer',
+                        marginTop: '-6px',
+                        position: 'relative',
+                        accentColor: '#8cda3f'
+                      }}
+                    />
                   </div>
                 </div>
 
