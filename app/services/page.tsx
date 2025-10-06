@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { GraduationCap, Anchor, Gauge, Wrench, Star, CheckCircle, Calendar, Users, Wind, Sparkles, Package, Search, Zap, Settings } from 'lucide-react';
@@ -49,7 +49,7 @@ type Service = {
   subcategory_slug: string | null;
 };
 
-export default function ServicesPage() {
+function ServicesPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('certification');
@@ -809,5 +809,17 @@ export default function ServicesPage() {
         <Footer />
       </div>
     </>
+  );
+}
+
+export default function ServicesPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', background: '#0a1628', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#ffefbf', fontSize: '1.5rem' }}>Loading services...</div>
+      </div>
+    }>
+      <ServicesPageContent />
+    </Suspense>
   );
 }
