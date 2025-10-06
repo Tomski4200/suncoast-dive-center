@@ -47,7 +47,117 @@ const Footer: React.FC = () => {
               }}>
                 Your premier dive center on Florida's Gulf Coast. Explore the underwater world with confidence and expertise.
               </p>
-              
+
+              {/* Contact Info */}
+              <div className="space-y-3" style={{ marginBottom: '1.5rem' }}>
+                {/* Address */}
+                <div style={{
+                  display: 'flex',
+                  gap: '0.75rem',
+                  color: 'rgba(255, 239, 191, 0.6)',
+                  fontSize: '0.875rem'
+                }}>
+                  <MapPin
+                    size={18}
+                    style={{
+                      flexShrink: 0,
+                      marginTop: '2px',
+                      color: 'rgba(255, 239, 191, 0.6)',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#8cda3f';
+                      e.currentTarget.style.filter = 'drop-shadow(0 0 8px #8cda3f)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)';
+                      e.currentTarget.style.filter = 'none';
+                    }}
+                  />
+                  <div>
+                    <p>5304 Seminole Blvd</p>
+                    <p>St. Petersburg, FL 33708</p>
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div style={{
+                  display: 'flex',
+                  gap: '0.75rem',
+                  alignItems: 'center',
+                  color: 'rgba(255, 239, 191, 0.6)',
+                  fontSize: '0.875rem'
+                }}>
+                  <Phone
+                    size={18}
+                    style={{
+                      flexShrink: 0,
+                      color: 'rgba(255, 239, 191, 0.6)',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#8cda3f';
+                      e.currentTarget.style.filter = 'drop-shadow(0 0 8px #8cda3f)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)';
+                      e.currentTarget.style.filter = 'none';
+                    }}
+                  />
+                  <a
+                    href="tel:+17273200201"
+                    style={{
+                      color: 'inherit',
+                      transition: 'color 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)'}
+                  >
+                    (727) 320-0201
+                  </a>
+                </div>
+
+                {/* Email */}
+                <div style={{
+                  display: 'flex',
+                  gap: '0.75rem',
+                  alignItems: 'center',
+                  color: 'rgba(255, 239, 191, 0.6)',
+                  fontSize: '0.875rem'
+                }}>
+                  <Mail
+                    size={18}
+                    style={{
+                      flexShrink: 0,
+                      color: 'rgba(255, 239, 191, 0.6)',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#8cda3f';
+                      e.currentTarget.style.filter = 'drop-shadow(0 0 8px #8cda3f)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)';
+                      e.currentTarget.style.filter = 'none';
+                    }}
+                  />
+                  <a
+                    href="mailto:suncoastdivecenter@yahoo.com"
+                    style={{
+                      color: 'inherit',
+                      transition: 'color 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)'}
+                  >
+                    suncoastdivecenter@yahoo.com
+                  </a>
+                </div>
+              </div>
+
               {/* Social Icons */}
               <div className="flex gap-3">
                 {[
@@ -199,7 +309,7 @@ const Footer: React.FC = () => {
               </ul>
             </motion.div>
 
-            {/* Contact Info */}
+            {/* Store Hours */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -213,149 +323,28 @@ const Footer: React.FC = () => {
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em'
               }}>
-                Contact Info
+                Store Hours
               </h4>
-              
-              <div className="space-y-3">
-                {/* Address */}
-                <div style={{
-                  display: 'flex',
-                  gap: '0.75rem',
-                  color: 'rgba(255, 239, 191, 0.6)',
-                  fontSize: '0.875rem'
-                }}>
-                  <MapPin 
-                    size={18} 
-                    style={{ 
-                      flexShrink: 0, 
-                      marginTop: '2px',
-                      color: 'rgba(255, 239, 191, 0.6)',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#8cda3f';
-                      e.currentTarget.style.filter = 'drop-shadow(0 0 8px #8cda3f)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)';
-                      e.currentTarget.style.filter = 'none';
-                    }}
-                  />
-                  <div>
-                    <p>5304 Seminole Blvd</p>
-                    <p>St. Petersburg, FL 33708</p>
-                  </div>
-                </div>
 
-                {/* Phone */}
-                <div style={{
-                  display: 'flex',
-                  gap: '0.75rem',
-                  alignItems: 'center',
+              <div style={{
+                padding: '0.75rem',
+                background: 'rgba(140, 218, 63, 0.05)',
+                borderRadius: '8px',
+                border: '1px solid rgba(140, 218, 63, 0.1)'
+              }}>
+                <p style={{
                   color: 'rgba(255, 239, 191, 0.6)',
-                  fontSize: '0.875rem'
+                  fontSize: '0.875rem',
+                  lineHeight: 1.5
                 }}>
-                  <Phone 
-                    size={18} 
-                    style={{ 
-                      flexShrink: 0,
-                      color: 'rgba(255, 239, 191, 0.6)',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#8cda3f';
-                      e.currentTarget.style.filter = 'drop-shadow(0 0 8px #8cda3f)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)';
-                      e.currentTarget.style.filter = 'none';
-                    }}
-                  />
-                  <a 
-                    href="tel:+17273200201"
-                    style={{
-                      color: 'inherit',
-                      transition: 'color 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)'}
-                  >
-                    (727) 320-0201
-                  </a>
-                </div>
-
-                {/* Email */}
-                <div style={{
-                  display: 'flex',
-                  gap: '0.75rem',
-                  alignItems: 'center',
-                  color: 'rgba(255, 239, 191, 0.6)',
-                  fontSize: '0.875rem'
-                }}>
-                  <Mail 
-                    size={18} 
-                    style={{ 
-                      flexShrink: 0,
-                      color: 'rgba(255, 239, 191, 0.6)',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#8cda3f';
-                      e.currentTarget.style.filter = 'drop-shadow(0 0 8px #8cda3f)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)';
-                      e.currentTarget.style.filter = 'none';
-                    }}
-                  />
-                  <a 
-                    href="mailto:suncoastdivecenter@yahoo.com"
-                    style={{
-                      color: 'inherit',
-                      transition: 'color 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#8cda3f'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 239, 191, 0.6)'}
-                  >
-                    suncoastdivecenter@yahoo.com
-                  </a>
-                </div>
-
-                {/* Hours */}
-                <div style={{
-                  marginTop: '1rem',
-                  padding: '0.75rem',
-                  background: 'rgba(140, 218, 63, 0.05)',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(140, 218, 63, 0.1)'
-                }}>
-                  <p style={{
-                    color: '#8cda3f',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    marginBottom: '0.5rem'
-                  }}>
-                    Store Hours
-                  </p>
-                  <p style={{
-                    color: 'rgba(255, 239, 191, 0.6)',
-                    fontSize: '0.875rem',
-                    lineHeight: 1.5
-                  }}>
-                    Sunday: Closed<br />
-                    Monday: 9AM - 6PM<br />
-                    Tuesday: Closed<br />
-                    Wednesday: 9AM - 6PM<br />
-                    Thursday: 9AM - 6PM<br />
-                    Friday: 9AM - 6PM<br />
-                    Saturday: 9AM - 4PM
-                  </p>
-                </div>
+                  Sunday: Closed<br />
+                  Monday: 9AM - 6PM<br />
+                  Tuesday: Closed<br />
+                  Wednesday: 9AM - 6PM<br />
+                  Thursday: 9AM - 6PM<br />
+                  Friday: 9AM - 6PM<br />
+                  Saturday: 9AM - 4PM
+                </p>
               </div>
             </motion.div>
           </div>
