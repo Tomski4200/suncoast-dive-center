@@ -16,6 +16,8 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [acceptTerms, setAcceptTerms] = useState(false)
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -23,6 +25,13 @@ export default function SignupPage() {
     e.preventDefault()
     setLoading(true)
     setError(null)
+
+    // Validate legal checkboxes
+    if (!acceptTerms || !acceptPrivacy) {
+      setError('You must accept the Terms of Service and Privacy Policy to create an account.')
+      setLoading(false)
+      return
+    }
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -377,6 +386,110 @@ export default function SignupPage() {
               }}>
                 Minimum 6 characters
               </p>
+            </div>
+
+            {/* Legal Checkboxes */}
+            <div style={{
+              marginBottom: '1.5rem',
+              padding: '1.25rem',
+              background: 'rgba(140, 218, 63, 0.05)',
+              border: '1px solid rgba(140, 218, 63, 0.15)',
+              borderRadius: '8px'
+            }}>
+              {/* Terms of Service Checkbox */}
+              <label style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '0.75rem',
+                marginBottom: '1rem',
+                cursor: 'pointer',
+                userSelect: 'none'
+              }}>
+                <input
+                  type="checkbox"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  style={{
+                    marginTop: '3px',
+                    width: '18px',
+                    height: '18px',
+                    cursor: 'pointer',
+                    accentColor: '#8cda3f',
+                    flexShrink: 0
+                  }}
+                />
+                <span style={{
+                  color: 'rgba(255, 239, 191, 0.9)',
+                  fontSize: '0.875rem',
+                  lineHeight: '1.5'
+                }}>
+                  I have read and agree to the{' '}
+                  <a
+                    href="/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      color: '#8cda3f',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                      borderBottom: '1px solid transparent',
+                      transition: 'border-color 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.borderBottomColor = '#8cda3f'}
+                    onMouseLeave={(e) => e.currentTarget.style.borderBottomColor = 'transparent'}
+                  >
+                    Terms of Service
+                  </a>
+                </span>
+              </label>
+
+              {/* Privacy Policy Checkbox */}
+              <label style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '0.75rem',
+                cursor: 'pointer',
+                userSelect: 'none'
+              }}>
+                <input
+                  type="checkbox"
+                  checked={acceptPrivacy}
+                  onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                  style={{
+                    marginTop: '3px',
+                    width: '18px',
+                    height: '18px',
+                    cursor: 'pointer',
+                    accentColor: '#8cda3f',
+                    flexShrink: 0
+                  }}
+                />
+                <span style={{
+                  color: 'rgba(255, 239, 191, 0.9)',
+                  fontSize: '0.875rem',
+                  lineHeight: '1.5'
+                }}>
+                  I have read and agree to the{' '}
+                  <a
+                    href="/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      color: '#8cda3f',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                      borderBottom: '1px solid transparent',
+                      transition: 'border-color 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.borderBottomColor = '#8cda3f'}
+                    onMouseLeave={(e) => e.currentTarget.style.borderBottomColor = 'transparent'}
+                  >
+                    Privacy Policy
+                  </a>
+                </span>
+              </label>
             </div>
 
             {/* Submit Button */}
