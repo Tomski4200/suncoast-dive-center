@@ -87,6 +87,16 @@ export default function ServicesManagementPage() {
         getAllServices()
       ]);
 
+      console.log('=== DEBUG: Fetched Data ===');
+      console.log('Categories:', categoriesData);
+      console.log('Subcategories:', subcategoriesData);
+      console.log('Subcategories by category:');
+      categoriesData.forEach(cat => {
+        const subs = subcategoriesData.filter(sub => sub.category_id === cat.id);
+        console.log(`  ${cat.name} (id: ${cat.id}):`, subs.length, 'subcategories');
+        subs.forEach(sub => console.log(`    - ${sub.name}`));
+      });
+
       setCategories(categoriesData);
       setSubcategories(subcategoriesData);
       setServices(servicesData);
@@ -190,6 +200,12 @@ export default function ServicesManagementPage() {
   const filteredSubcategories = subcategories.filter(sub => {
     return !selectedCategoryFilter || sub.category_id === selectedCategoryFilter;
   });
+
+  console.log('=== DEBUG: Filtering ===');
+  console.log('All subcategories count:', subcategories.length);
+  console.log('Selected category filter:', selectedCategoryFilter);
+  console.log('Filtered subcategories count:', filteredSubcategories.length);
+  console.log('Filtered subcategories:', filteredSubcategories.map(s => ({ name: s.name, category_id: s.category_id })));
 
   if (loading) {
     return (
