@@ -531,18 +531,19 @@ function ServicesPageContent() {
                             background: 'rgba(255, 239, 191, 0.05)',
                             borderRadius: '16px',
                             padding: '1.5rem',
-                            border: '1px solid rgba(255, 239, 191, 0.1)',
-                            textAlign: 'center'
+                            border: '1px solid rgba(255, 239, 191, 0.1)'
                           }}
                         >
-                          <IconComponent size={40} color="#8cda3f" style={{ marginBottom: '1rem' }} />
-                          <h3 style={{
-                            fontSize: '1.25rem',
-                            color: '#8cda3f',
-                            marginBottom: '1rem'
-                          }}>
-                            {group.name}
-                          </h3>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                            <IconComponent size={32} color="#8cda3f" />
+                            <h3 style={{
+                              fontSize: '1.25rem',
+                              color: '#8cda3f',
+                              margin: 0
+                            }}>
+                              {group.name}
+                            </h3>
+                          </div>
                           <div className="space-y-2">
                             {group.services.map((service) => (
                               <div
@@ -625,14 +626,16 @@ function ServicesPageContent() {
                             border: '1px solid rgba(140, 218, 63, 0.2)'
                           }}
                         >
-                          <IconComponent size={32} color="#8cda3f" style={{ marginBottom: '1rem' }} />
-                          <h3 style={{
-                            fontSize: '1.5rem',
-                            color: '#ffefbf',
-                            marginBottom: '0.5rem'
-                          }}>
-                            {group.name}
-                          </h3>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                            <IconComponent size={32} color="#8cda3f" />
+                            <h3 style={{
+                              fontSize: '1.5rem',
+                              color: '#ffefbf',
+                              margin: 0
+                            }}>
+                              {group.name}
+                            </h3>
+                          </div>
                         <div className="space-y-2">
                           {group.services.map((service) => (
                             <div
