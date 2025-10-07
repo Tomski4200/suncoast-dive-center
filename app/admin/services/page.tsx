@@ -509,6 +509,11 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
                   </span>
                 )}
               </div>
+              {category.description && (
+                <p style={{ color: 'rgba(255, 239, 191, 0.7)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
+                  {category.description}
+                </p>
+              )}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginTop: '0.75rem' }}>
                 <div>
                   <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.75rem' }}>Subcategories</p>
@@ -531,11 +536,6 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
                   <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.display_order}</p>
                 </div>
               </div>
-              {category.description && (
-                <p style={{ color: 'rgba(255, 239, 191, 0.7)', fontSize: '0.875rem', marginTop: '0.75rem' }}>
-                  {category.description}
-                </p>
-              )}
             </div>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <button
