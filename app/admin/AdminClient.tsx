@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Package, FileText, Users, Settings,
   LogOut, TrendingUp, DollarSign, Eye, Plus,
-  ChevronRight, ChevronLeft, Menu, Tag
+  ChevronRight, ChevronLeft, Menu, Tag, Wrench
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -54,8 +54,9 @@ export default function AdminClient({ userEmail, userRole, blogs, products }: Ad
   const menuItems = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard, href: '/admin' },
     { id: 'inventory', label: 'Inventory', icon: Package, href: '/admin/inventory' },
-    { id: 'blogs', label: 'Blog Manager', icon: FileText, href: '/admin/blogs' },
+    { id: 'blogs', label: 'Blogs', icon: FileText, href: '/admin/blogs' },
     { id: 'promotions', label: 'Promotions', icon: Tag, href: '/admin/promotions' },
+    { id: 'services', label: 'Services', icon: Wrench, href: '/admin/services' },
     { id: 'users', label: 'Users', icon: Users, href: '/admin/users' },
     { id: 'settings', label: 'Settings', icon: Settings, href: '/admin/settings' }
   ];
