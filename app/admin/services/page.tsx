@@ -473,7 +473,7 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
         </button>
       </div>
 
-      <div style={{ display: 'grid', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
         {categories.map(category => {
           const subcategoryCount = subcategories.filter(sub => sub.category_id === category.id).length;
           const serviceCount = services.filter(service => service.category_id === category.id).length;
