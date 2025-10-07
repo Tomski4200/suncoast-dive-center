@@ -514,7 +514,7 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
                   {category.description}
                 </p>
               )}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginTop: '0.75rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem 2rem', marginTop: '0.75rem' }}>
                 <div>
                   <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.75rem' }}>Subcategories</p>
                   <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{subcategoryCount}</p>
