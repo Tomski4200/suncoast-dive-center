@@ -685,17 +685,18 @@ function ServicesPageContent() {
                     background: 'rgba(255, 239, 191, 0.05)',
                     borderRadius: '16px',
                     padding: '2rem',
-                    border: '1px solid rgba(255, 239, 191, 0.2)',
-                    textAlign: 'center'
+                    border: '1px solid rgba(255, 239, 191, 0.2)'
                   }}>
-                    <Star size={40} color="#8cda3f" style={{ margin: '0 auto 1rem' }} />
-                    <h3 style={{
-                      fontSize: '1.5rem',
-                      color: '#ffefbf',
-                      marginBottom: '1rem'
-                    }}>
-                      Authorized Service Center
-                    </h3>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                      <Star size={32} color="#8cda3f" />
+                      <h3 style={{
+                        fontSize: '1.5rem',
+                        color: '#ffefbf',
+                        margin: 0
+                      }}>
+                        Authorized Service Center
+                      </h3>
+                    </div>
                     <p style={{
                       color: 'rgba(255, 239, 191, 0.7)',
                       marginBottom: '1rem'
