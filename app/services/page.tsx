@@ -687,7 +687,7 @@ function ServicesPageContent() {
                     padding: '2rem',
                     border: '1px solid rgba(255, 239, 191, 0.2)'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', justifyContent: 'center', paddingBottom: '20px' }}>
                       <Star size={32} color="#8cda3f" />
                       <h3 style={{
                         fontSize: '1.5rem',
@@ -696,12 +696,14 @@ function ServicesPageContent() {
                       }}>
                         Factory Authorized Service Center for All Industry Leading Brands:
                       </h3>
+                      <Star size={32} color="#8cda3f" />
                     </div>
                     <div style={{
                       display: 'flex',
                       flexWrap: 'wrap',
                       gap: '1rem',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
+                      marginBottom: '20px'
                     }}>
                       {[
                         { name: 'Aqualung', url: 'https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/aqualung.webp' },
