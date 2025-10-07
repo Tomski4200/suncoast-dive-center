@@ -332,19 +332,47 @@ const Footer: React.FC = () => {
                 borderRadius: '8px',
                 border: '1px solid rgba(140, 218, 63, 0.1)'
               }}>
-                <p style={{
-                  color: 'rgba(255, 239, 191, 0.6)',
-                  fontSize: '0.875rem',
-                  lineHeight: 1.5
+                <table style={{
+                  width: '100%',
+                  borderCollapse: 'collapse',
+                  fontSize: '0.875rem'
                 }}>
-                  Sunday: Closed<br />
-                  Monday: 9AM - 6PM<br />
-                  Tuesday: Closed<br />
-                  Wednesday: 9AM - 6PM<br />
-                  Thursday: 9AM - 6PM<br />
-                  Friday: 9AM - 6PM<br />
-                  Saturday: 9AM - 4PM
-                </p>
+                  <tbody>
+                    <tr>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>Sun</td>
+                      <td colSpan={2} style={{ color: '#8B0000', textAlign: 'center', padding: '0.25rem 0' }}>Closed</td>
+                    </tr>
+                    <tr>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>Mon</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>9AM</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>6PM</td>
+                    </tr>
+                    <tr>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>Tue</td>
+                      <td colSpan={2} style={{ color: '#8B0000', textAlign: 'center', padding: '0.25rem 0' }}>Closed</td>
+                    </tr>
+                    <tr>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>Wed</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>9AM</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>6PM</td>
+                    </tr>
+                    <tr>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>Thu</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>9AM</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>6PM</td>
+                    </tr>
+                    <tr>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>Fri</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>9AM</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>6PM</td>
+                    </tr>
+                    <tr>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>Sat</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>9AM</td>
+                      <td style={{ color: 'rgba(255, 239, 191, 0.6)', padding: '0.25rem 0' }}>4PM</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </motion.div>
           </div>
