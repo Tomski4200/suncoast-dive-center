@@ -545,14 +545,14 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
               <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Icon:</p>
               <p style={{ color: '#8cda3f', fontSize: '0.875rem' }}>{category.icon || 'None'}</p>
 
+              <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Display Order:</p>
+              <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.display_order}</p>
+
               <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Subcategories:</p>
               <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{subcategoryCount}</p>
 
               <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Services:</p>
               <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{serviceCount}</p>
-
-              <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Display Order:</p>
-              <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.display_order}</p>
             </div>
           </motion.div>
           );
