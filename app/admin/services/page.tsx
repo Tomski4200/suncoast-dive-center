@@ -496,18 +496,16 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.25rem' }}>
                 <h3 style={{ color: '#ffefbf', fontSize: '1.25rem', fontWeight: 600 }}>{category.name}</h3>
-                {!category.is_active && (
-                  <span style={{
-                    padding: '4px 12px',
-                    background: 'rgba(255, 107, 107, 0.2)',
-                    color: '#ff6b6b',
-                    borderRadius: '12px',
-                    fontSize: '0.75rem',
-                    fontWeight: 600
-                  }}>
-                    Inactive
-                  </span>
-                )}
+                <span style={{
+                  padding: '4px 12px',
+                  background: category.is_active ? 'rgba(140, 218, 63, 0.2)' : 'rgba(255, 107, 107, 0.2)',
+                  color: category.is_active ? '#8cda3f' : '#ff6b6b',
+                  borderRadius: '12px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600
+                }}>
+                  {category.is_active ? 'Active' : 'Hidden'}
+                </span>
               </div>
               {category.description && (
                 <p style={{ color: 'rgba(255, 239, 191, 0.7)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
