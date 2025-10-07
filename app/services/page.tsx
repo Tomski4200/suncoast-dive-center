@@ -602,9 +602,13 @@ function ServicesPageContent() {
                     {Object.entries(groupedServices).map(([key, group], index) => {
                       const gearServiceIconMap: Record<string, any> = {
                         'Regulator service': BrainCog,
+                        'Regulator Service': BrainCog,
                         'BCD service': Bubbles,
+                        'BCD Service': Bubbles,
                         'Computer Service': Computer,
-                        'Wetsuit repair': Wrench
+                        'Computer service': Computer,
+                        'Wetsuit repair': Wrench,
+                        'Wetsuit Repair': Wrench
                       };
                       const IconComponent = gearServiceIconMap[group.name] || Wrench;
 
