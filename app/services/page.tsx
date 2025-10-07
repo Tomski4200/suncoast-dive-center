@@ -687,23 +687,16 @@ function ServicesPageContent() {
                     padding: '2rem',
                     border: '1px solid rgba(255, 239, 191, 0.2)'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', justifyContent: 'center' }}>
                       <Star size={32} color="#8cda3f" />
                       <h3 style={{
                         fontSize: '1.5rem',
                         color: '#ffefbf',
                         margin: 0
                       }}>
-                        Authorized Service Center
+                        Factory Authorized Service Center for All Industry Leading Brands:
                       </h3>
                     </div>
-                    <p style={{
-                      color: 'rgba(255, 239, 191, 0.7)',
-                      marginBottom: '1rem',
-                      textAlign: 'center'
-                    }}>
-                      We are factory-authorized to service:
-                    </p>
                     <div style={{
                       display: 'flex',
                       flexWrap: 'wrap',
