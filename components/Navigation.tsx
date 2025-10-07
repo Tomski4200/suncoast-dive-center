@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Search, User, Menu } from 'lucide-react';
 import styles from './Navigation.module.css';
 import { useCart } from '@/contexts/CartContext';
-import { useAuth } from '@/contexts/AuthContext';
+import { createClient } from '@/lib/supabase/client';
 import SearchModal from './SearchModal';
 
 interface NavigationProps {
@@ -20,16 +20,55 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { itemCount, setIsCartOpen } = useCart();
-  const { user } = useAuth();
+  const [user, setUser] = useState<any>(null);
+  const [userName, setUserName] = useState<string>('');
+  const supabase = createClient();
 
   // Get user initials from name
   const getInitials = (name: string) => {
+    if (!name) return 'U';
     const parts = name.trim().split(' ');
     if (parts.length >= 2) {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
     return name.substring(0, 2).toUpperCase();
   };
+
+  // Fetch user data
+  useEffect(() => {
+    async function getUser() {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+
+      if (user) {
+        // Fetch profile to get name
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('name')
+          .eq('id', user.id)
+          .single();
+
+        if (profile?.name) {
+          setUserName(profile.name);
+        } else {
+          // Fallback to email if no name
+          setUserName(user.email?.split('@')[0] || 'User');
+        }
+      }
+    }
+
+    getUser();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+      if (!session?.user) {
+        setUserName('');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -230,7 +269,7 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
               }}
               aria-label="Dashboard"
             >
-              {getInitials(user.name)}
+              {getInitials(userName)}
             </Link>
           ) : (
             <Link
