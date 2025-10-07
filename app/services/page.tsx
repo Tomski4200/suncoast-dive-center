@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { GraduationCap, Anchor, Gauge, Wrench, Star, CheckCircle, Calendar, Users, Wind, Sparkles, Package, Search, Zap, Settings } from 'lucide-react';
+import { GraduationCap, Anchor, Gauge, Wrench, Star, CheckCircle, Calendar, Users, Wind, Sparkles, Package, Search, Zap, Settings, BrainCog, Bubbles, Computer } from 'lucide-react';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
 import { supabase } from '@/lib/supabase';
@@ -599,27 +599,36 @@ function ServicesPageContent() {
                   </div>
 
                   <div className="grid lg:grid-cols-2 gap-8">
-                    {Object.entries(groupedServices).map(([key, group], index) => (
-                      <motion.div
-                        key={key}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        style={{
-                          background: 'rgba(140, 218, 63, 0.05)',
-                          borderRadius: '20px',
-                          padding: '2rem',
-                          border: '1px solid rgba(140, 218, 63, 0.2)'
-                        }}
-                      >
-                        <Wrench size={32} color="#8cda3f" style={{ marginBottom: '1rem' }} />
-                        <h3 style={{
-                          fontSize: '1.5rem',
-                          color: '#ffefbf',
-                          marginBottom: '0.5rem'
-                        }}>
-                          {group.name}
-                        </h3>
+                    {Object.entries(groupedServices).map(([key, group], index) => {
+                      const gearServiceIconMap: Record<string, any> = {
+                        'Regulator service': BrainCog,
+                        'BCD service': Bubbles,
+                        'Computer Service': Computer,
+                        'Wetsuit repair': Wrench
+                      };
+                      const IconComponent = gearServiceIconMap[group.name] || Wrench;
+
+                      return (
+                        <motion.div
+                          key={key}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: index * 0.1 }}
+                          style={{
+                            background: 'rgba(140, 218, 63, 0.05)',
+                            borderRadius: '20px',
+                            padding: '2rem',
+                            border: '1px solid rgba(140, 218, 63, 0.2)'
+                          }}
+                        >
+                          <IconComponent size={32} color="#8cda3f" style={{ marginBottom: '1rem' }} />
+                          <h3 style={{
+                            fontSize: '1.5rem',
+                            color: '#ffefbf',
+                            marginBottom: '0.5rem'
+                          }}>
+                            {group.name}
+                          </h3>
                         <div className="space-y-2">
                           {group.services.map((service) => (
                             <div
@@ -661,7 +670,8 @@ function ServicesPageContent() {
                           ))}
                         </div>
                       </motion.div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div style={{
