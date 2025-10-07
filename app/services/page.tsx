@@ -687,7 +687,7 @@ function ServicesPageContent() {
                     padding: '2rem',
                     border: '1px solid rgba(255, 239, 191, 0.2)'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', justifyContent: 'center' }}>
                       <Star size={32} color="#8cda3f" />
                       <h3 style={{
                         fontSize: '1.5rem',
@@ -699,7 +699,8 @@ function ServicesPageContent() {
                     </div>
                     <p style={{
                       color: 'rgba(255, 239, 191, 0.7)',
-                      marginBottom: '1rem'
+                      marginBottom: '1rem',
+                      textAlign: 'center'
                     }}>
                       We are factory-authorized to service:
                     </p>
@@ -709,7 +710,7 @@ function ServicesPageContent() {
                       gap: '1rem',
                       justifyContent: 'center'
                     }}>
-                      {['Aqualung', 'ScubaPro', 'Mares', 'Oceanic', 'Atomic', 'Zeagle'].map(brand => (
+                      {['ScubaPro', 'Mares', 'Oceanic', 'Atomic', 'Zeagle'].map(brand => (
                         <span
                           key={brand}
                           style={{
@@ -724,6 +725,24 @@ function ServicesPageContent() {
                           {brand}
                         </span>
                       ))}
+                      <div style={{
+                        padding: '0.5rem 1rem',
+                        background: 'rgba(140, 218, 63, 0.1)',
+                        borderRadius: '20px',
+                        border: '1px solid #8cda3f',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <img
+                          src="https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/aqualung.webp"
+                          alt="Aqualung"
+                          style={{
+                            height: '24px',
+                            width: 'auto'
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </>
