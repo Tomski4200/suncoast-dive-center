@@ -167,55 +167,51 @@ function ServicesPageContent() {
                 color: 'rgba(255, 239, 191, 0.7)',
                 fontSize: '1.25rem',
                 maxWidth: '600px',
-                margin: '0 auto'
+                margin: '0 auto 2rem'
               }}>
                 From beginner courses to technical diving, we've got everything you need for your underwater adventure
               </p>
-            </motion.div>
-          </div>
-        </section>
 
-        {/* Service Tabs */}
-        <section className="py-4 px-4" style={{ background: 'rgba(30, 58, 95, 0.2)' }}>
-          <div className="max-w-7xl mx-auto">
-            <div style={{
-              display: 'flex',
-              gap: '1rem',
-              justifyContent: 'center',
-              flexWrap: 'wrap'
-            }}>
-              {categories.map((category) => {
-                const IconComponent = iconMap[category.icon] || GraduationCap;
-                return (
-                  <button
-                    key={category.id}
-                    onClick={() => {
-                      setActiveTab(category.slug);
-                      router.push(`/services?tab=${category.slug}`, { scroll: false });
-                    }}
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      background: activeTab === category.slug
-                        ? 'linear-gradient(135deg, #8cda3f 0%, #b8e563 100%)'
-                        : 'transparent',
-                      color: activeTab === category.slug ? '#0a1628' : '#ffefbf',
-                      border: `2px solid ${activeTab === category.slug ? '#8cda3f' : 'rgba(255, 239, 191, 0.3)'}`,
-                      borderRadius: '50px',
-                      fontSize: '1rem',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem'
-                    }}
-                  >
-                    <IconComponent size={20} />
-                    {category.name}
-                  </button>
-                );
-              })}
-            </div>
+              {/* Service Tabs */}
+              <div style={{
+                display: 'flex',
+                gap: '1rem',
+                justifyContent: 'center',
+                flexWrap: 'wrap'
+              }}>
+                {categories.map((category) => {
+                  const IconComponent = iconMap[category.icon] || GraduationCap;
+                  return (
+                    <button
+                      key={category.id}
+                      onClick={() => {
+                        setActiveTab(category.slug);
+                        router.push(`/services?tab=${category.slug}`, { scroll: false });
+                      }}
+                      style={{
+                        padding: '0.75rem 1.5rem',
+                        background: activeTab === category.slug
+                          ? 'linear-gradient(135deg, #8cda3f 0%, #b8e563 100%)'
+                          : 'transparent',
+                        color: activeTab === category.slug ? '#0a1628' : '#ffefbf',
+                        border: `2px solid ${activeTab === category.slug ? '#8cda3f' : 'rgba(255, 239, 191, 0.3)'}`,
+                        borderRadius: '50px',
+                        fontSize: '1rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                      }}
+                    >
+                      <IconComponent size={20} />
+                      {category.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
           </div>
         </section>
 
