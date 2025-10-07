@@ -494,7 +494,7 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
             }}
           >
             <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.25rem' }}>
                 <h3 style={{ color: '#ffefbf', fontSize: '1.25rem', fontWeight: 600 }}>{category.name}</h3>
                 {!category.is_active && (
                   <span style={{
