@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -1351,7 +1351,9 @@ function ServiceModal({ service, categories, subcategories, onSave, onClose }: {
   const [usePriceText, setUsePriceText] = useState(!!service?.price_text);
   const [includesInput, setIncludesInput] = useState('');
 
-  const availableSubcategories = subcategories.filter(sub => sub.category_id === formData.category_id);
+  const availableSubcategories = useMemo(() => {
+    return subcategories.filter(sub => sub.category_id === formData.category_id);
+  }, [subcategories, formData.category_id]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
