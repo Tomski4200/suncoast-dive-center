@@ -538,14 +538,16 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
                 {category.description}
               </p>
             )}
-            <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto 1fr', gap: '0.5rem 2rem', marginTop: '0.75rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr 3rem auto 1fr', gap: '0.5rem 2rem', marginTop: '0.75rem' }}>
               <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Slug:</p>
               <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.slug}</p>
+              <div></div>
               <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Subcategories:</p>
               <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{subcategoryCount}</p>
 
               <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Icon:</p>
               <p style={{ color: '#8cda3f', fontSize: '0.875rem' }}>{category.icon || 'None'}</p>
+              <div></div>
               <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Services:</p>
               <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{serviceCount}</p>
 
