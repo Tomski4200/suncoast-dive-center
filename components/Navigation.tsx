@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Search, User, Menu } from 'lucide-react';
 import styles from './Navigation.module.css';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import SearchModal from './SearchModal';
 
 interface NavigationProps {
@@ -19,6 +20,16 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { itemCount, setIsCartOpen } = useCart();
+  const { user } = useAuth();
+
+  // Get user initials from name
+  const getInitials = (name: string) => {
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -188,14 +199,48 @@ const Navigation: React.FC<NavigationProps> = ({ isVideoMode = false, setIsVideo
             <Search size={24} />
           </button>
 
-          {/* User Account Icon */}
-          <Link 
-            href="/auth/login"
-            className={styles.iconBtn} 
-            aria-label="Account"
-          >
-            <User size={24} />
-          </Link>
+          {/* User Account Icon / Avatar */}
+          {user ? (
+            <Link
+              href="/dashboard"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #8cda3f 0%, #b8e563 100%)',
+                color: '#0a1628',
+                fontWeight: 700,
+                fontSize: '0.875rem',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease',
+                border: '2px solid transparent'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.1)';
+                e.currentTarget.style.borderColor = '#8cda3f';
+                e.currentTarget.style.boxShadow = '0 0 20px rgba(140, 218, 63, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.borderColor = 'transparent';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+              aria-label="Dashboard"
+            >
+              {getInitials(user.name)}
+            </Link>
+          ) : (
+            <Link
+              href="/auth/login"
+              className={styles.iconBtn}
+              aria-label="Account"
+            >
+              <User size={24} />
+            </Link>
+          )}
 
           {/* Cart Icon */}
           <button 
