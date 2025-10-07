@@ -710,39 +710,37 @@ function ServicesPageContent() {
                       gap: '1rem',
                       justifyContent: 'center'
                     }}>
-                      {['ScubaPro', 'Mares', 'Oceanic', 'Atomic', 'Zeagle'].map(brand => (
-                        <span
-                          key={brand}
+                      {[
+                        { name: 'Aqualung', url: 'https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/aqualung.webp' },
+                        { name: 'ScubaPro', url: 'https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/scubapro.webp' },
+                        { name: 'Mares', url: 'https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/mares.webp' },
+                        { name: 'Oceanic', url: 'https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/oceanic.webp' },
+                        { name: 'Atomic', url: 'https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/atomic.webp' },
+                        { name: 'Zeagle', url: 'https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/zeagle.webp' },
+                        { name: 'Cressi', url: 'https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/cressi.webp' }
+                      ].map(brand => (
+                        <div
+                          key={brand.name}
                           style={{
                             padding: '0.5rem 1rem',
                             background: 'rgba(140, 218, 63, 0.1)',
                             borderRadius: '20px',
                             border: '1px solid #8cda3f',
-                            color: '#8cda3f',
-                            fontWeight: 600
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
                           }}
                         >
-                          {brand}
-                        </span>
+                          <img
+                            src={brand.url}
+                            alt={brand.name}
+                            style={{
+                              height: '24px',
+                              width: 'auto'
+                            }}
+                          />
+                        </div>
                       ))}
-                      <div style={{
-                        padding: '0.5rem 1rem',
-                        background: 'rgba(140, 218, 63, 0.1)',
-                        borderRadius: '20px',
-                        border: '1px solid #8cda3f',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
-                        <img
-                          src="https://whtmqicghstlquhycbvp.supabase.co/storage/v1/object/public/logos-green/aqualung.webp"
-                          alt="Aqualung"
-                          style={{
-                            height: '24px',
-                            width: 'auto'
-                          }}
-                        />
-                      </div>
                     </div>
                   </div>
                 </>
