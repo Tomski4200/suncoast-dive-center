@@ -939,89 +939,29 @@ function CategoryModal({ category, onSave, onClose }: {
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div>
-            <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
-              Name *
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => {
-                setFormData({ ...formData, name: e.target.value, slug: generateSlug(e.target.value) });
-              }}
-              required
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'rgba(10, 22, 40, 0.5)',
-                border: '1px solid rgba(255, 239, 191, 0.2)',
-                borderRadius: '6px',
-                color: '#ffefbf'
-              }}
-            />
-          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '1rem' }}>
+            <div>
+              <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
+                Name *
+              </label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => {
+                  setFormData({ ...formData, name: e.target.value, slug: generateSlug(e.target.value) });
+                }}
+                required
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  background: 'rgba(10, 22, 40, 0.5)',
+                  border: '1px solid rgba(255, 239, 191, 0.2)',
+                  borderRadius: '6px',
+                  color: '#ffefbf'
+                }}
+              />
+            </div>
 
-          <div>
-            <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
-              Slug *
-            </label>
-            <input
-              type="text"
-              value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-              required
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'rgba(10, 22, 40, 0.5)',
-                border: '1px solid rgba(255, 239, 191, 0.2)',
-                borderRadius: '6px',
-                color: '#ffefbf'
-              }}
-            />
-          </div>
-
-          <div>
-            <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
-              Icon (Lucide icon name)
-            </label>
-            <input
-              type="text"
-              value={formData.icon}
-              onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              placeholder="e.g., Wrench, GraduationCap, Anchor"
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'rgba(10, 22, 40, 0.5)',
-                border: '1px solid rgba(255, 239, 191, 0.2)',
-                borderRadius: '6px',
-                color: '#ffefbf'
-              }}
-            />
-          </div>
-
-          <div>
-            <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
-              Description
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={3}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'rgba(10, 22, 40, 0.5)',
-                border: '1px solid rgba(255, 239, 191, 0.2)',
-                borderRadius: '6px',
-                color: '#ffefbf',
-                resize: 'vertical'
-              }}
-            />
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div>
               <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
                 Display Order
@@ -1045,16 +985,90 @@ function CategoryModal({ category, onSave, onClose }: {
               <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
                 Status
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem', cursor: 'pointer' }}>
-                <input
-                  type="checkbox"
-                  checked={formData.is_active}
-                  onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                  style={{ cursor: 'pointer' }}
-                />
-                <span style={{ color: '#ffefbf', fontSize: '0.875rem' }}>Active</span>
-              </label>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, is_active: !formData.is_active })}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  background: formData.is_active ? 'rgba(140, 218, 63, 0.2)' : 'rgba(255, 107, 107, 0.2)',
+                  border: `2px solid ${formData.is_active ? '#8cda3f' : '#ff6b6b'}`,
+                  borderRadius: '50px',
+                  color: formData.is_active ? '#8cda3f' : '#ff6b6b',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  marginTop: '1.5rem'
+                }}
+              >
+                {formData.is_active ? 'Active' : 'Hide'}
+              </button>
             </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div>
+              <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
+                Slug *
+              </label>
+              <input
+                type="text"
+                value={formData.slug}
+                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                required
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  background: 'rgba(10, 22, 40, 0.5)',
+                  border: '1px solid rgba(255, 239, 191, 0.2)',
+                  borderRadius: '6px',
+                  color: '#ffefbf'
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
+                Icon (Lucide icon name)
+              </label>
+              <input
+                type="text"
+                value={formData.icon}
+                onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                placeholder="e.g., Wrench, GraduationCap, Anchor"
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  background: 'rgba(10, 22, 40, 0.5)',
+                  border: '1px solid rgba(255, 239, 191, 0.2)',
+                  borderRadius: '6px',
+                  color: '#ffefbf'
+                }}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label style={{ color: '#ffefbf', fontSize: '0.875rem', marginBottom: '0.5rem', display: 'block' }}>
+              Description
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              rows={3}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                background: 'rgba(10, 22, 40, 0.5)',
+                border: '1px solid rgba(255, 239, 191, 0.2)',
+                borderRadius: '6px',
+                color: '#ffefbf',
+                resize: 'vertical'
+              }}
+            />
           </div>
 
           <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
