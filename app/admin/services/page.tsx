@@ -487,14 +487,11 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
               background: 'rgba(30, 58, 95, 0.3)',
               borderRadius: '12px',
               padding: '1.5rem',
-              border: '1px solid rgba(255, 239, 191, 0.1)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
+              border: '1px solid rgba(255, 239, 191, 0.1)'
             }}
           >
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginBottom: '0.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <h3 style={{ color: '#ffefbf', fontSize: '1.25rem', fontWeight: 600 }}>{category.name}</h3>
                 <span style={{
                   padding: '4px 12px',
@@ -507,55 +504,55 @@ function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, 
                   {category.is_active ? 'Active' : 'Hidden'}
                 </span>
               </div>
-              {category.description && (
-                <p style={{ color: 'rgba(255, 239, 191, 0.7)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
-                  {category.description}
-                </p>
-              )}
-              <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.5rem 2rem', marginTop: '0.75rem' }}>
-                <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Slug:</p>
-                <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.slug}</p>
-
-                <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Icon:</p>
-                <p style={{ color: '#8cda3f', fontSize: '0.875rem' }}>{category.icon || 'None'}</p>
-
-                <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Subcategories:</p>
-                <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{subcategoryCount}</p>
-
-                <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Services:</p>
-                <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{serviceCount}</p>
-
-                <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Display Order:</p>
-                <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.display_order}</p>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button
+                  onClick={() => onEdit(category)}
+                  style={{
+                    padding: '0.5rem',
+                    background: 'rgba(140, 218, 63, 0.2)',
+                    border: '1px solid #8cda3f',
+                    borderRadius: '6px',
+                    color: '#8cda3f',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Edit2 size={16} />
+                </button>
+                <button
+                  onClick={() => onDelete(category)}
+                  style={{
+                    padding: '0.5rem',
+                    background: 'rgba(255, 107, 107, 0.2)',
+                    border: '1px solid #ff6b6b',
+                    borderRadius: '6px',
+                    color: '#ff6b6b',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Trash2 size={16} />
+                </button>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button
-                onClick={() => onEdit(category)}
-                style={{
-                  padding: '0.5rem',
-                  background: 'rgba(140, 218, 63, 0.2)',
-                  border: '1px solid #8cda3f',
-                  borderRadius: '6px',
-                  color: '#8cda3f',
-                  cursor: 'pointer'
-                }}
-              >
-                <Edit2 size={16} />
-              </button>
-              <button
-                onClick={() => onDelete(category)}
-                style={{
-                  padding: '0.5rem',
-                  background: 'rgba(255, 107, 107, 0.2)',
-                  border: '1px solid #ff6b6b',
-                  borderRadius: '6px',
-                  color: '#ff6b6b',
-                  cursor: 'pointer'
-                }}
-              >
-                <Trash2 size={16} />
-              </button>
+            {category.description && (
+              <p style={{ color: 'rgba(255, 239, 191, 0.7)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
+                {category.description}
+              </p>
+            )}
+            <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.5rem 2rem', marginTop: '0.75rem' }}>
+              <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Slug:</p>
+              <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.slug}</p>
+
+              <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Icon:</p>
+              <p style={{ color: '#8cda3f', fontSize: '0.875rem' }}>{category.icon || 'None'}</p>
+
+              <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Subcategories:</p>
+              <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{subcategoryCount}</p>
+
+              <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Services:</p>
+              <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{serviceCount}</p>
+
+              <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.875rem' }}>Display Order:</p>
+              <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.display_order}</p>
             </div>
           </motion.div>
           );
