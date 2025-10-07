@@ -325,6 +325,8 @@ export default function ServicesManagementPage() {
         {activeTab === 'categories' && (
           <CategoriesTab
             categories={categories}
+            subcategories={subcategories}
+            services={services}
             onEdit={(cat) => {
               setEditingCategory(cat);
               setShowCategoryModal(true);
@@ -439,8 +441,10 @@ export default function ServicesManagementPage() {
 
 // ===== TAB COMPONENTS =====
 
-function CategoriesTab({ categories, onEdit, onDelete, onAdd }: {
+function CategoriesTab({ categories, subcategories, services, onEdit, onDelete, onAdd }: {
   categories: ServiceCategory[];
+  subcategories: ServiceSubcategory[];
+  services: Service[];
   onEdit: (cat: ServiceCategory) => void;
   onDelete: (cat: ServiceCategory) => void;
   onAdd: () => void;
@@ -470,7 +474,11 @@ function CategoriesTab({ categories, onEdit, onDelete, onAdd }: {
       </div>
 
       <div style={{ display: 'grid', gap: '1rem' }}>
-        {categories.map(category => (
+        {categories.map(category => {
+          const subcategoryCount = subcategories.filter(sub => sub.category_id === category.id).length;
+          const serviceCount = services.filter(service => service.category_id === category.id).length;
+
+          return (
           <motion.div
             key={category.id}
             initial={{ opacity: 0 }}
@@ -501,7 +509,15 @@ function CategoriesTab({ categories, onEdit, onDelete, onAdd }: {
                   </span>
                 )}
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '0.75rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginTop: '0.75rem' }}>
+                <div>
+                  <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.75rem' }}>Subcategories</p>
+                  <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{subcategoryCount}</p>
+                </div>
+                <div>
+                  <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.75rem' }}>Services</p>
+                  <p style={{ color: '#8cda3f', fontSize: '0.875rem', fontWeight: 600 }}>{serviceCount}</p>
+                </div>
                 <div>
                   <p style={{ color: 'rgba(255, 239, 191, 0.5)', fontSize: '0.75rem' }}>Slug</p>
                   <p style={{ color: '#ffefbf', fontSize: '0.875rem' }}>{category.slug}</p>
@@ -550,7 +566,8 @@ function CategoriesTab({ categories, onEdit, onDelete, onAdd }: {
               </button>
             </div>
           </motion.div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
