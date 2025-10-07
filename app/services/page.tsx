@@ -130,7 +130,7 @@ function ServicesPageContent() {
         <section style={{
           position: 'relative',
           paddingTop: '120px',
-          paddingBottom: '60px',
+          paddingBottom: '40px',
           background: 'linear-gradient(180deg, #0a1628 0%, #1e3a5f 100%)',
           overflow: 'hidden'
         }}>
@@ -178,7 +178,7 @@ function ServicesPageContent() {
                 gap: '1rem',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                marginTop: '20px'
+                marginTop: '40px'
               }}>
                 {categories.map((category) => {
                   const IconComponent = iconMap[category.icon] || GraduationCap;
